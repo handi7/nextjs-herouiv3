@@ -1,0 +1,62 @@
+"use client";
+
+import Button from "@/components/ui/Button";
+import InputText from "@/components/ui/InputText";
+import { buttonStyle } from "@/styles";
+import { Button as HeroButton, Modal, Spinner } from "@heroui/react";
+import Link from "next/link";
+
+function DocsPage() {
+  return (
+    <div className="flex flex-col gap-5 p-5">
+      <div className="flex gap-2">
+        <HeroButton className="">Button</HeroButton>
+
+        <Link className={buttonStyle()} href="/docs">
+          Link
+        </Link>
+
+        <Button isLoading>My button</Button>
+
+        <Modal>
+          <Button>Open Modal</Button>
+          <Modal.Backdrop variant="blur">
+            <Modal.Container placement="top">
+              <Modal.Dialog>
+                <Modal.CloseTrigger />
+                <Modal.Header>
+                  <Modal.Icon />
+                  <Modal.Heading />
+                </Modal.Header>
+                <Modal.Body />
+                <Modal.Footer />
+              </Modal.Dialog>
+            </Modal.Container>
+          </Modal.Backdrop>
+        </Modal>
+
+        <span className=""> Loading...</span>
+
+        <Spinner />
+      </div>
+
+      <div className="max-w-2xl flex flex-col gap-5">
+        <InputText isRequired label="Name" labelPlacement="left" placeholder="Type your name" />
+
+        <InputText
+          isRequired
+          label="Email"
+          description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+          labelPlacement="left"
+          placeholder="Type your email"
+          descriptionPlacement="top"
+          isInvalid
+          errorMessage="error Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a qui atque quos error et ipsam quae tenetur. Labore, provident?"
+          // classNames={{ inputWrapper: "sm:max-w-72" }}
+        />
+      </div>
+    </div>
+  );
+}
+
+export default DocsPage;
