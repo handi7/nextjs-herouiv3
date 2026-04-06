@@ -119,7 +119,7 @@
     /* == Dark Theme Variables == */
 
     /* Base Colors */
-    --background: oklch(12% 0.005 285.823);
+    --background: oklch(25.54% 0.03212 212.514);
     --foreground: var(--snow);
 
     /* Surface: Used for non-overlay components (cards, accordions, disclosure groups) */
