@@ -1,17 +1,28 @@
 "use client";
 
-import { Input, InputProps, Label, cn } from "@heroui/react";
-import { useId } from "react";
+import {
+  FieldError,
+  InputGroup,
+  InputProps,
+  Label,
+  TextField,
+  cn,
+  descriptionVariants,
+} from "@heroui/react";
+import { PropsWithChildren, ReactNode } from "react";
 
 export interface InputTextProps extends InputProps {
   isRequired?: boolean;
+  isDisabled?: boolean;
   label?: string;
   description?: string;
   className?: string;
   classNames?: {
     base?: string;
     label?: string;
+    labelWrapper?: string;
     inputWrapper?: string;
+    inputGroup?: string;
     input?: string;
     description?: string;
     errorMessage?: string;
@@ -20,11 +31,14 @@ export interface InputTextProps extends InputProps {
   descriptionPlacement?: "top" | "bottom";
   isInvalid?: boolean;
   errorMessage?: string;
+  startContent?: ReactNode;
+  endContent?: ReactNode;
 }
 
 function InputText(props: InputTextProps) {
   const {
     isRequired,
+    isDisabled,
     label,
     description,
     className,
@@ -33,63 +47,93 @@ function InputText(props: InputTextProps) {
     descriptionPlacement = "bottom",
     isInvalid,
     errorMessage,
+    startContent,
+    endContent,
     ...rest
   } = props;
-  const id = useId();
 
   return (
-    <div
-      className={cn("flex flex-col gap-1", [
+    <TextField
+      isInvalid={isInvalid}
+      isDisabled={isDisabled}
+      className={cn("w-full flex flex-col gap-1", [
         { "sm:flex-row sm:gap-4": labelPlacement === "left" },
-        className,
         classNames?.base,
+        className,
       ])}
     >
       {label && (
         <div
           className={cn("flex flex-col gap-1", [
             { "sm:w-[150px] sm:flex-none sm:mt-2": labelPlacement === "left" },
+            classNames?.labelWrapper,
           ])}
         >
           <Label
-            htmlFor={rest.id || id}
-            className={cn("", [{ "text-danger": isInvalid }, classNames?.label])}
+            isRequired={isRequired}
+            isDisabled={isDisabled}
+            isInvalid={isInvalid}
+            className={cn("", [classNames?.label])}
           >
             {label}
-            {isRequired && <span className="text-danger"> *</span>}
           </Label>
 
           {description && descriptionPlacement === "top" && (
-            <span className={cn("text-xs text-muted mt-1", [classNames?.description])}>
+            <Description
+              isDisabled={isDisabled}
+              className={classNames?.description}
+            >
               {description}
-            </span>
+            </Description>
           )}
         </div>
       )}
 
-      <div className={cn("flex flex-col w-full", [classNames?.inputWrapper])}>
-        <Input
-          {...rest}
-          id={rest.id || id}
-          className={cn("rounded-lg", [
-            { "border border-danger ring-danger background-danger": isInvalid },
-            classNames?.input,
-          ])}
-        />
+      <div
+        className={cn("w-full flex flex-col gap-1", [classNames?.inputWrapper])}
+      >
+        <InputGroup className={classNames?.inputGroup}>
+          {startContent && (
+            <InputGroup.Prefix>{startContent}</InputGroup.Prefix>
+          )}
+
+          <InputGroup.Input
+            {...rest}
+            className={cn("w-full rounded-lg", [classNames?.input])}
+          />
+
+          {endContent && <InputGroup.Suffix>{endContent}</InputGroup.Suffix>}
+        </InputGroup>
 
         {description && descriptionPlacement === "bottom" && (
-          <span className={cn("text-xs text-muted mt-1", [classNames?.description])}>
+          <Description
+            isDisabled={isDisabled}
+            className={cn("px-1 mt-1", [classNames?.description])}
+          >
             {description}
-          </span>
+          </Description>
         )}
 
-        {isInvalid && (
-          <span className={cn("text-xs text-danger mt-1", [classNames?.errorMessage])}>
-            {errorMessage}
-          </span>
-        )}
+        <FieldError>{errorMessage}</FieldError>
       </div>
-    </div>
+    </TextField>
+  );
+}
+
+interface DescriptionProps extends PropsWithChildren {
+  isDisabled?: boolean;
+  className?: string;
+}
+
+function Description({ children, isDisabled, className }: DescriptionProps) {
+  return (
+    <span
+      className={descriptionVariants({
+        className: cn({ "opacity-50": isDisabled }, className),
+      })}
+    >
+      {children}
+    </span>
   );
 }
 

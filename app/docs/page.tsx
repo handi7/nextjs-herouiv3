@@ -56,15 +56,17 @@ function DocsPage() {
           label="Name"
           labelPlacement="left"
           placeholder="Type your name"
+          startContent="Mr."
         />
 
         <InputText
           isRequired
+          // isDisabled
           label="Email"
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
           labelPlacement="left"
           placeholder="Type your email"
-          descriptionPlacement="top"
+          // descriptionPlacement="top"
           isInvalid
           errorMessage="error Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a qui atque quos error et ipsam quae tenetur. Labore, provident?"
           // classNames={{ inputWrapper: "sm:max-w-72" }}
