@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/ui/Button";
+import InputNumber from "@/components/ui/InputNumber";
 import InputText from "@/components/ui/InputText";
 import Switch from "@/components/ui/Switch";
 import { buttonStyle } from "@/styles";
@@ -70,6 +71,15 @@ function DocsPage() {
           isInvalid
           errorMessage="error Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a qui atque quos error et ipsam quae tenetur. Labore, provident?"
           // classNames={{ inputWrapper: "sm:max-w-72" }}
+        />
+
+        <InputNumber
+          label="Price"
+          labelPlacement="left"
+          description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+          isDisabled
+          isInvalid
+          errorMessage="error Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit a qui atque quos error et ipsam quae tenetur. Labore, provident?"
         />
       </div>
     </div>

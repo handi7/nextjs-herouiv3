@@ -2,16 +2,15 @@
 
 import {
   FieldError,
-  InputGroup,
-  InputProps,
+  NumberField,
+  NumberFieldProps,
   Label,
-  TextField,
   cn,
   descriptionVariants,
 } from "@heroui/react";
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren } from "react";
 
-export interface InputTextProps extends InputProps {
+export interface InputNumberProps extends NumberFieldProps {
   isRequired?: boolean;
   isDisabled?: boolean;
   label?: string;
@@ -26,16 +25,16 @@ export interface InputTextProps extends InputProps {
     input?: string;
     description?: string;
     errorMessage?: string;
+    incrementButton?: string;
+    decrementButton?: string;
   };
   labelPlacement?: "top" | "left";
   descriptionPlacement?: "top" | "bottom";
   isInvalid?: boolean;
   errorMessage?: string;
-  startContent?: ReactNode;
-  endContent?: ReactNode;
 }
 
-function InputText(props: InputTextProps) {
+function InputNumber(props: InputNumberProps) {
   const {
     isRequired,
     isDisabled,
@@ -47,15 +46,14 @@ function InputText(props: InputTextProps) {
     descriptionPlacement = "bottom",
     isInvalid,
     errorMessage,
-    startContent,
-    endContent,
     ...rest
   } = props;
 
   return (
-    <TextField
+    <NumberField
       isInvalid={isInvalid}
       isDisabled={isDisabled}
+      {...rest}
       className={cn("w-full flex flex-col gap-1", [
         { "sm:flex-row sm:gap-4": labelPlacement === "left" },
         classNames?.base,
@@ -92,18 +90,17 @@ function InputText(props: InputTextProps) {
       <div
         className={cn("w-full flex flex-col gap-1", [classNames?.inputWrapper])}
       >
-        <InputGroup className={cn("rounded-lg", [classNames?.inputGroup])}>
-          {startContent && (
-            <InputGroup.Prefix>{startContent}</InputGroup.Prefix>
-          )}
-
-          <InputGroup.Input
-            {...rest}
-            className={cn("w-full", [classNames?.input])}
+        <NumberField.Group
+          className={cn("rounded-lg", [classNames?.inputGroup])}
+        >
+          <NumberField.DecrementButton
+            className={classNames?.decrementButton}
           />
-
-          {endContent && <InputGroup.Suffix>{endContent}</InputGroup.Suffix>}
-        </InputGroup>
+          <NumberField.Input className={cn("w-full", [classNames?.input])} />
+          <NumberField.IncrementButton
+            className={classNames?.incrementButton}
+          />
+        </NumberField.Group>
 
         {description && descriptionPlacement === "bottom" && (
           <Description
@@ -116,7 +113,7 @@ function InputText(props: InputTextProps) {
 
         <FieldError>{errorMessage}</FieldError>
       </div>
-    </TextField>
+    </NumberField>
   );
 }
 
@@ -137,4 +134,4 @@ function Description({ children, isDisabled, className }: DescriptionProps) {
   );
 }
 
-export default InputText;
+export default InputNumber;
