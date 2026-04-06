@@ -1,13 +1,15 @@
 "use client";
 
+import Link from "next/link";
+
+import { Button as HeroButton, Modal, Spinner } from "@heroui/react";
+import { useTheme } from "next-themes";
+
 import Button from "@/components/ui/Button";
 import InputNumber from "@/components/ui/InputNumber";
 import InputText from "@/components/ui/InputText";
 import Switch from "@/components/ui/Switch";
 import { buttonStyle } from "@/styles";
-import { Button as HeroButton, Modal, Spinner } from "@heroui/react";
-import { useTheme } from "next-themes";
-import Link from "next/link";
 
 function DocsPage() {
   const { resolvedTheme, setTheme } = useTheme();

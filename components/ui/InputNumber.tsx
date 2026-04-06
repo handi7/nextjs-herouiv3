@@ -2,9 +2,9 @@
 
 import {
   FieldError,
+  Label,
   NumberField,
   NumberFieldProps,
-  Label,
   cn,
   descriptionVariants,
 } from "@heroui/react";
@@ -77,29 +77,18 @@ function InputNumber(props: InputNumberProps) {
           </Label>
 
           {description && descriptionPlacement === "top" && (
-            <Description
-              isDisabled={isDisabled}
-              className={classNames?.description}
-            >
+            <Description isDisabled={isDisabled} className={classNames?.description}>
               {description}
             </Description>
           )}
         </div>
       )}
 
-      <div
-        className={cn("w-full flex flex-col gap-1", [classNames?.inputWrapper])}
-      >
-        <NumberField.Group
-          className={cn("rounded-lg", [classNames?.inputGroup])}
-        >
-          <NumberField.DecrementButton
-            className={classNames?.decrementButton}
-          />
+      <div className={cn("w-full flex flex-col gap-1", [classNames?.inputWrapper])}>
+        <NumberField.Group className={cn("rounded-lg", [classNames?.inputGroup])}>
+          <NumberField.DecrementButton className={classNames?.decrementButton} />
           <NumberField.Input className={cn("w-full", [classNames?.input])} />
-          <NumberField.IncrementButton
-            className={classNames?.incrementButton}
-          />
+          <NumberField.IncrementButton className={classNames?.incrementButton} />
         </NumberField.Group>
 
         {description && descriptionPlacement === "bottom" && (

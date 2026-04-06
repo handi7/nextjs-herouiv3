@@ -1,6 +1,7 @@
-import { buttonStyle } from "@/styles";
-import { Button as HeroButton, ButtonProps, cn, Spinner } from "@heroui/react";
+import { ButtonProps, Button as HeroButton, Spinner, cn } from "@heroui/react";
 import { ReactNode } from "react";
+
+import { buttonStyle } from "@/styles";
 
 interface Props extends ButtonProps {
   isLoading?: boolean;
@@ -10,11 +11,7 @@ interface Props extends ButtonProps {
 
 function Button({ isLoading, startContent, endContent, ...props }: Props) {
   return (
-    <HeroButton
-      isDisabled={isLoading}
-      {...props}
-      className={cn(buttonStyle(), props.className)}
-    >
+    <HeroButton isDisabled={isLoading} {...props} className={cn(buttonStyle(), props.className)}>
       <>
         {isLoading && <Spinner size="sm" color="current" />}
         {startContent}

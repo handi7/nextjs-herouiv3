@@ -79,28 +79,18 @@ function InputText(props: InputTextProps) {
           </Label>
 
           {description && descriptionPlacement === "top" && (
-            <Description
-              isDisabled={isDisabled}
-              className={classNames?.description}
-            >
+            <Description isDisabled={isDisabled} className={classNames?.description}>
               {description}
             </Description>
           )}
         </div>
       )}
 
-      <div
-        className={cn("w-full flex flex-col gap-1", [classNames?.inputWrapper])}
-      >
+      <div className={cn("w-full flex flex-col gap-1", [classNames?.inputWrapper])}>
         <InputGroup className={cn("rounded-lg", [classNames?.inputGroup])}>
-          {startContent && (
-            <InputGroup.Prefix>{startContent}</InputGroup.Prefix>
-          )}
+          {startContent && <InputGroup.Prefix>{startContent}</InputGroup.Prefix>}
 
-          <InputGroup.Input
-            {...rest}
-            className={cn("w-full", [classNames?.input])}
-          />
+          <InputGroup.Input {...rest} className={cn("w-full", [classNames?.input])} />
 
           {endContent && <InputGroup.Suffix>{endContent}</InputGroup.Suffix>}
         </InputGroup>
