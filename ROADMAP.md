@@ -136,8 +136,93 @@ Semua dipakai langsung dari `@heroui/react` (gak ada wrapper, karena gak ada yan
 - [x] README dengan struktur yang sama: Stack, Getting Started, Scripts, Project Structure (baru), UI Components, Component Usage, Formatting, Linting (termasuk complexity limit), Theme
 - [ ] ~~(Opsional) `registry.json` + build `public/r/*.json` supaya bisa `npx shadcn add <url>` — `registry:ui` bisa ngirim file apa aja, dependencies diisi `@heroui/react`/`@heroui/styles`~~ — **di-skip** (project tujuan butuh `components.json` shadcn dulu); bisa dikerjain nanti kalau kepake
 
+---
+
+# Bagian 2 — Adopsi dari `telescope/service-inventory-frontend`
+
+Sumber: `../../telescope/service-inventory-frontend` (HeroUI **v2**, Logto, `telescope-ui`). Yang diambil pola &
+utilitas generiknya; komponen ditulis ulang di HeroUI v3, gak di-copy. Aturan Bagian 1 tetap berlaku (palette,
+PascalCase, gak ada file re-export, complexity ≤ 15, `<Icon>` cuma buat data).
+
+## Phase 9 — Tooling, hooks & utils dasar
+
+Tooling
+
+- [ ] Husky + lint-staged: pre-commit jalanin Prettier + `eslint --fix` di file staged, lalu `tsc --noEmit`
+- [ ] Script `format:check` dan `lint:fix`; `engines` ngunci ke npm (+ `.npmrc` kalau perlu)
+- [ ] CI GitHub Actions (`.github/workflows/ci.yml`): `npm ci` → `eslint` → `format:check` → `build`
+
+Hooks
+
+- [ ] `useMounted` ditulis ulang pakai `useSyncExternalStore` (hapus `eslint-disable react-hooks/set-state-in-effect`)
+- [ ] `useQueryParams` — baca/update query string (dasar search, filter, pagination di Phase 10)
+- [ ] `useDebounceCallback`
+- [ ] `useBackTo` + `useTrackAppNavigation` — tombol kembali yang fallback ke halaman list kalau halaman dibuka langsung dari link
+- [ ] `useOnlineStatus` — ditulis ulang pakai `useSyncExternalStore`
+- [ ] `useLocalStorage` — **ditulis ulang** pakai `useSyncExternalStore` (versi aslinya bikin hydration mismatch)
+
+Utils (`lib/`)
+
+- [ ] `lib/dates.ts`: `formatDate`, `formatDateTime`, `formatTime` (`DateFormatter`, zona `Asia/Jakarta`, fallback `"-"`)
+- [ ] `lib/numbers.ts`: `thousands`, `formatFileSize`
+- [ ] `lib/strings.ts`: `plural`, `capitalize`, `getShowingRangeText`
+
+Konvensi (`CLAUDE.md`)
+
+- [ ] Gak ada `setState` langsung di `useEffect`: state browser lewat `useSyncExternalStore`, "reset pas prop berubah" pakai pola previous-value di render (`!!` buat prop opsional)
+- [ ] Semua hook dipanggil sebelum early return
+- [ ] Label enum tinggal di file `types/` (`STATUS_LABEL`, dst), gak dideklarasi ulang per komponen
+- [ ] `lib/` buat helper yang dipakai lintas area; helper yang dipakai satu komponen tetap di file komponen itu
+
+## Phase 10 — Komponen aplikasi
+
+- [ ] `ConfirmationModal` — HeroUI v3 `Modal`, `onOk` async dengan loading, teks tombol bisa diganti
+- [ ] `UnsavedChangesProvider` + `useUnsavedChangesGuard` — nanya pakai `ConfirmationModal` sebelum pindah halaman (link internal & router), dialog browser buat reload/tutup tab
+- [ ] `SearchInput` — HeroUI v3 `SearchField`, debounce, nyimpen `?search=` di URL dan reset `page`
+- [ ] `Pagination` — HeroUI v3 `Pagination`, `?page=` & `?limit=` di URL
+- [ ] `DataTable` — HeroUI v3 `Table` + skeleton saat loading + `EmptyState` + `Pagination`
+- [ ] Demo di halaman utama (section baru + link di sidebar)
+
+## Phase 11 — Form: react-hook-form + zod
+
+Belum ada sama sekali di herouiv3.
+
+- [ ] Dependency: `react-hook-form`, `zod`, `@hookform/resolvers`
+- [ ] Sambungin semua `Input*`, `DatePicker`, `DateRangePicker` ke RHF. Opsi yang perlu diputusin:
+      (a) komponen `Form*` terpisah (`FormInputText`, ...) yang bungkus `Controller`, atau
+      (b) satu `FormField` generik (`name` + render prop). Error RHF otomatis jadi `errorMessage`.
+- [ ] `setValidationErrors` — nempelin error validasi dari API ke field-nya (`setError` per path)
+- [ ] Integrasi `useUnsavedChangesGuard` (aktif saat `formState.isDirty`)
+- [ ] Demo form lengkap: schema zod, submit async, toast sukses/gagal
+
+## Phase 12 — Data fetching: React Query
+
+Pola dari inventory, **tanpa** auth/proxy token Logto (itu spesifik project).
+
+- [ ] `QueryProvider` — `QueryClient` dibuat per client (bukan di module scope), `staleTime: 0`, `refetchOnWindowFocus: false`, retry terbatas
+- [ ] `lib/api` — fetch wrapper client & server dengan tipe envelope respons (`data`, `meta`, error)
+- [ ] `useApiQuery` — query key terstruktur, `enabled`, `staleTime`, `placeholderData`, `isValidating`
+- [ ] `useListQuery` — filter dibaca dari URL (`useQueryParams`), jadi bagian query key, balikin meta pagination
+- [ ] Sambungin ke `DataTable`, `SearchInput`, `Pagination` dari Phase 10
+
+## Phase 13 — Deploy & monitoring
+
+- [ ] `output: "standalone"` di `next.config.ts`
+- [ ] Dockerfile multi-stage (deps → dev → builder → runner, user non-root) + `.dockerignore` + `docker-compose.yml`
+- [ ] (Opsional) Sentry: `instrumentation.ts`, `instrumentation-client.ts`, `withSentryConfig`, source map upload cuma kalau ada token
+
+## Gak diadopsi
+
+Logto + `middleware.ts`, proxy token, store company (zustand), `@slm-solusi-digital/telescope-ui`, notifikasi SSE &
+suara, direct upload, config master data/permission/modules, `basePath: /inventory`, Jenkins/deployment.yaml,
+`useMultiClick` (niche), `useResetScroll` (dobel sama perilaku bawaan Next).
+
 ## Urutan kerja yang disarankan
 
 Phase 0 → 1 wajib duluan (semua komponen bergantung ke FieldShell & konvensi). Setelah itu Phase 2–6 bisa per komponen,
 satu commit per komponen (gaya commit shadcn: `feat: add InputTextarea ...`), dan tiap komponen langsung ditambah ke demo page.
 Phase 7 bisa dikerjain paralel setelah Phase 1. Phase 8 terakhir.
+
+Bagian 2: Phase 9 dulu (`useQueryParams` dipakai Phase 10–12, Husky/CI ngejaga semua commit setelahnya).
+Phase 10 sebelum 11 (`ConfirmationModal` + unsaved-changes guard dipakai form). Phase 12 butuh `DataTable`/
+`SearchInput`/`Pagination` dari Phase 10. Phase 13 bebas kapan aja.
