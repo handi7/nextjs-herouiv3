@@ -104,15 +104,21 @@ Beda API dari shadcn: value-nya tetap pakai NumberField (`value: number`, kosong
 
 Beda dari shadcn: input tanggal berupa segmen yang bisa diketik (`mm / dd / yyyy`, urutan ikut locale), bukan tombol "Pick a date" + `dateFormat`; event-nya `onChange`, bukan `onValueChange`.
 
-## Phase 6 — Overlay & feedback
+## Phase 6 — Overlay & feedback ✅
 
-| shadcn    | HeroUI basis                                                                                                           |
-| --------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `Dialog`  | `Modal` (+ `styles/modal.style.ts`) — bikin wrapper cuma kalau nambah default/API, kalau nggak pakai langsung          |
-| `Sheet`   | `Drawer` — sama, wrapper cuma kalau nambah sesuatu                                                                     |
-| `Popover` | langsung `Popover` dari `@heroui/react`, gak bikin file                                                                |
-| `Tooltip` | langsung `Tooltip` dari `@heroui/react`, gak bikin file                                                                |
-| `Sonner`  | `Toast` bawaan HeroUI (gak perlu sonner); pasang provider/region di Providers, bikin helper `toast()` dengan API mirip |
+Semua dipakai langsung dari `@heroui/react` (gak ada wrapper, karena gak ada yang perlu ditambah):
+
+| shadcn    | HeroUI                                                                                             |
+| --------- | -------------------------------------------------------------------------------------------------- |
+| `Dialog`  | `Modal` (`Modal.Backdrop` → `Container` → `Dialog`; tombol `slot="close"` buat nutup)              |
+| `Sheet`   | `Drawer` (`Drawer.Content placement="right"`)                                                      |
+| `Popover` | `Popover`                                                                                          |
+| `Tooltip` | `Tooltip` (`delay` default 700ms)                                                                  |
+| `Sonner`  | `toast` dari `@heroui/react` — API mirip sonner (`toast()`, `.success`, `.promise`, `actionProps`) |
+
+- [x] `<Toast.Provider placement="top" />` di `components/providers/index.tsx`
+- [x] Demo di `app/page-client.tsx` (`ToastDemo`, `OverlayDemo`)
+- [x] Radius toast ikut `--radius`; drawer tetap tanpa radius karena nempel ke pinggir layar
 
 ## Phase 7 — App shell & demo
 

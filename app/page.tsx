@@ -1,7 +1,7 @@
 import { Separator, Skeleton, Spinner } from "@heroui/react";
 import { ArrowRightIcon, PlusIcon, UserIcon } from "lucide-react";
 
-import PageClient from "./page-client";
+import { DateDemo, OverlayDemo, ToastDemo } from "./page-client";
 
 import ThemeSwitch from "@/components/ThemeSwitch";
 import { Button } from "@/components/ui/Button";
@@ -48,6 +48,10 @@ export default function Page() {
             </Button>
           </div>
         </div>
+        <ToastDemo />
+
+        <OverlayDemo />
+
         <div className="font-mono text-xs text-muted">
           (Press <kbd>d</kbd> to toggle dark mode)
         </div>
@@ -104,7 +108,7 @@ export default function Page() {
 
         <InputSlider showValue label="Budget range" defaultValue={[20, 80]} step={5} />
 
-        <PageClient />
+        <DateDemo />
 
         <InputSelect showClear label="Status" placeholder="Select status" options={statusOptions} />
 

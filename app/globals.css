@@ -173,8 +173,9 @@
 
 /*
  * One radius for every control and surface: fields (via --field-radius), buttons, overlays,
- * list items and tags. HeroUI's defaults differ per component (pill buttons, 24px popovers, ...).
- * Small toggles (checkbox, radio, switch) keep their own shapes.
+ * toasts, list items and tags. HeroUI's defaults differ per component (pill buttons, 24px
+ * popovers, ...). Small toggles (checkbox, radio, switch) keep their own shapes, and drawers
+ * stay square because they're attached to the screen edge.
  */
 @layer components {
   .button,
@@ -182,6 +183,7 @@
   .list-box-item,
   .popover,
   .tooltip,
+  .toast,
   .select__popover,
   .combo-box__popover,
   .autocomplete__popover,
