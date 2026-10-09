@@ -1,12 +1,17 @@
 import { Separator, Skeleton, Spinner } from "@heroui/react";
 import { ArrowRightIcon, PlusIcon, UserIcon } from "lucide-react";
 
+import ThemeSwitch from "@/components/ThemeSwitch";
 import { Button } from "@/components/ui/Button";
+import InputCheckbox from "@/components/ui/InputCheckbox";
+import InputCheckboxGroup from "@/components/ui/InputCheckboxGroup";
 import InputCombobox from "@/components/ui/InputCombobox";
 import InputComboboxMultiple from "@/components/ui/InputComboboxMultiple";
 import InputFormattedNumber from "@/components/ui/InputFormattedNumber";
 import InputNumber from "@/components/ui/InputNumber";
+import InputRadioGroup from "@/components/ui/InputRadioGroup";
 import InputSelect from "@/components/ui/InputSelect";
+import InputSwitch from "@/components/ui/InputSwitch";
 import InputText from "@/components/ui/InputText";
 import InputTextarea from "@/components/ui/InputTextarea";
 
@@ -100,6 +105,61 @@ export default function Page() {
           defaultValue={["jane", "john"]}
           options={peopleOptions}
         />
+
+        <InputCheckbox
+          isRequired
+          label="Accept terms"
+          description="You agree to the terms and privacy policy."
+        />
+
+        <InputSwitch
+          defaultSelected
+          label="Email notifications"
+          description="Receive email updates for important activity."
+        />
+
+        <ThemeSwitch />
+
+        <InputCheckboxGroup
+          isRequired
+          label="Permissions"
+          description="Select one or more permissions."
+          defaultValue={["read"]}
+          options={[
+            { label: "Create", value: "create" },
+            { label: "Read", value: "read" },
+            { label: "Update", value: "update" },
+            { label: "Delete", value: "delete", isDisabled: true },
+          ]}
+        />
+
+        <InputRadioGroup
+          isRequired
+          label="Visibility"
+          description="Choose who can see this item."
+          defaultValue="public"
+          options={[
+            { label: "Public", value: "public", description: "Anyone with the link." },
+            { label: "Private", value: "private", description: "Only you." },
+            { label: "Team only", value: "team", isDisabled: true },
+          ]}
+        />
+
+        <InputRadioGroup
+          label="Size"
+          labelPlacement="left"
+          orientation="horizontal"
+          defaultValue="md"
+          options={[
+            { label: "Small", value: "sm" },
+            { label: "Medium", value: "md" },
+            { label: "Large", value: "lg" },
+          ]}
+        />
+
+        <InputCheckbox label="Subscribe" errorMessage="You must subscribe to continue." />
+
+        <InputSwitch label="Two-factor auth" errorMessage="Required for admins." />
       </div>
     </div>
   );

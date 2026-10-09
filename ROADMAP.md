@@ -84,11 +84,14 @@ Beda API dari shadcn: value-nya tetap pakai NumberField (`value: number`, kosong
 - `InputCombobox` belum ada `showClear` (HeroUI gak punya clear button buat ComboBox); ngapus teks input udah ngosongin pilihan.
 - Bug tipe HeroUI: `Select` prop `items` (`Iterable<T, M>`) gak bisa nerima array, jadi `items` dipasang di `ListBox`.
 
-## Phase 4 — Toggle & choice
+## Phase 4 — Toggle & choice ✅
 
-- [ ] `InputCheckbox` (label + description), `InputCheckboxGroup` (`options`) — `Checkbox`, `CheckboxGroup`
-- [ ] `InputRadioGroup` — `RadioGroup` + `Radio`
-- [ ] `InputSwitch` — refactor `Switch.tsx` sekarang; hack `useMounted` khusus theme dipindah ke komponen `ThemeSwitch` terpisah
+- [x] `InputCheckbox` — label (dengan tanda wajib), description, `errorMessage`
+- [x] `InputSwitch` — label, description, `errorMessage` (dirender manual + `aria-describedby`, karena Switch React Aria gak punya validasi)
+- [x] `InputCheckboxGroup`, `InputRadioGroup` — pakai FieldShell (`labelPlacement` ikut jalan), `options` dengan `description` per item, `orientation`
+- [x] `Switch.tsx` lama dihapus; toggle tema pindah ke `components/ThemeSwitch.tsx` (pakai `InputSwitch` + `useMounted`)
+- [x] Tipe option pindah ke `lib/options.ts` (dipakai select, combobox, checkbox group, radio group)
+- [x] Override di `globals.css`: error checkbox/switch/radio merah (HeroUI default abu), spacing item grup diatur list sendiri, root radio group horizontal gak jadi flex-row
 
 ## Phase 5 — Range & tanggal
 

@@ -192,3 +192,28 @@
     border-radius: var(--radius);
   }
 }
+
+/*
+ * Form consistency overrides:
+ * - Errors are red on every input. HeroUI renders checkbox/switch/radio errors muted.
+ * - InputCheckboxGroup/InputRadioGroup lay out their items in their own list, so HeroUI's
+ *   per-item top margin and the horizontal radio group's row layout on the root are reset.
+ */
+@layer components {
+  .checkbox > .field-error,
+  .switch > .field-error,
+  .radio > .field-error {
+    color: var(--danger);
+  }
+
+  .checkbox-group [data-slot="checkbox"],
+  .radio-group[data-orientation="vertical"] [data-slot="radio"] {
+    margin-top: 0;
+  }
+
+  .radio-group[data-orientation="horizontal"] {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.25rem;
+  }
+}

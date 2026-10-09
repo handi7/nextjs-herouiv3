@@ -3,25 +3,18 @@
 import Link from "next/link";
 
 import { Button as HeroButton, Modal, Spinner } from "@heroui/react";
-import { useTheme } from "next-themes";
 
+import ThemeSwitch from "@/components/ThemeSwitch";
 import { Button } from "@/components/ui/Button";
 import InputNumber from "@/components/ui/InputNumber";
 import InputText from "@/components/ui/InputText";
-import Switch from "@/components/ui/Switch";
 import { buttonStyle } from "@/styles";
 
 function DocsPage() {
-  const { resolvedTheme, setTheme } = useTheme();
-
   return (
     <div className="flex flex-col gap-5 p-5">
       <div className="flex gap-2">
-        <Switch
-          label="Theme Switch"
-          isSelected={resolvedTheme === "dark"}
-          onChange={(isSelected) => setTheme(isSelected ? "dark" : "light")}
-        />
+        <ThemeSwitch label="Theme Switch" />
 
         <HeroButton className="">Button</HeroButton>
 

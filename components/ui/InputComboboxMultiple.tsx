@@ -19,11 +19,8 @@ import {
   fieldRootClassName,
   resolveInvalid,
 } from "@/components/ui/Field";
-import {
-  type InputOption,
-  optionTextValue,
-  renderListBoxOption,
-} from "@/components/ui/ListBoxOption";
+import { renderListBoxOption } from "@/components/ui/ListBoxOption";
+import { type InputOption, optionTextValue } from "@/lib/options";
 import { cn } from "@/lib/utils";
 
 type InputComboboxMultipleClassNames = FieldClassNames & {
