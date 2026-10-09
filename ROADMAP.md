@@ -71,13 +71,18 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 
 Beda API dari shadcn: value-nya tetap pakai NumberField (`value: number`, kosong = `NaN`, `onChange`), bukan `number | null` + `onValueChange`.
 
-## Phase 3 — Selection
+## Phase 3 — Selection ✅
 
-| shadcn                  | HeroUI basis                | Catatan                                                                                                      |
-| ----------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `InputSelect`           | `Select` + `ListBox`        | prop `options` + fallback `children`                                                                         |
-| `InputCombobox`         | `ComboBox` / `Autocomplete` | `defaultValue` string                                                                                        |
-| `InputComboboxMultiple` | `Autocomplete` + `TagGroup` | **riset dulu**: cek dukungan `selectionMode="multiple"` di v3.2.6; fallback custom pakai ComboBox + TagGroup |
+| shadcn                  | HeroUI basis                                     | Catatan                                                                                    |
+| ----------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `InputSelect`           | `Select` + `ListBox`                             | ✅ `options`, `showClear` (`Select.ClearButton`), option disabled                          |
+| `InputCombobox`         | `ComboBox` + `ListBox`                           | ✅ filter bawaan React Aria, `emptyMessage` (default "No results found.")                  |
+| `InputComboboxMultiple` | `ComboBox selectionMode="multiple"` + `TagGroup` | ✅ chip yang bisa dihapus di bawah input (`ComboBox.Value`), popover tetap buka saat milih |
+
+- Option bersama di `components/ui/ListBoxOption.tsx`: `{ label, value, isDisabled?, textValue? }` (shadcn: `disabled`, `searchValue`).
+- Value ikut React Aria: `value`/`defaultValue`/`onChange` dengan `Key` (single) atau `Key[]` (multiple).
+- `InputCombobox` belum ada `showClear` (HeroUI gak punya clear button buat ComboBox); ngapus teks input udah ngosongin pilihan.
+- Bug tipe HeroUI: `Select` prop `items` (`Iterable<T, M>`) gak bisa nerima array, jadi `items` dipasang di `ListBox`.
 
 ## Phase 4 — Toggle & choice
 

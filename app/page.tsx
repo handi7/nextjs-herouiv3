@@ -2,10 +2,26 @@ import { Separator, Skeleton, Spinner } from "@heroui/react";
 import { ArrowRightIcon, PlusIcon, UserIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/Button";
+import InputCombobox from "@/components/ui/InputCombobox";
+import InputComboboxMultiple from "@/components/ui/InputComboboxMultiple";
 import InputFormattedNumber from "@/components/ui/InputFormattedNumber";
 import InputNumber from "@/components/ui/InputNumber";
+import InputSelect from "@/components/ui/InputSelect";
 import InputText from "@/components/ui/InputText";
 import InputTextarea from "@/components/ui/InputTextarea";
+
+const statusOptions = [
+  { label: "Active", value: "active" },
+  { label: "Inactive", value: "inactive" },
+  { label: "Archived", value: "archived", isDisabled: true },
+];
+
+const peopleOptions = [
+  { label: "Jane Doe", value: "jane" },
+  { label: "John Smith", value: "john" },
+  { label: "Alex Johnson", value: "alex" },
+  { label: "Maria Garcia", value: "maria" },
+];
 
 export default function Page() {
   return (
@@ -68,6 +84,22 @@ export default function Page() {
         />
 
         <InputFormattedNumber label="Formatted amount" startContent="Rp" defaultValue={1250000.5} />
+
+        <InputSelect showClear label="Status" placeholder="Select status" options={statusOptions} />
+
+        <InputCombobox
+          label="Assignee"
+          placeholder="Select assignee"
+          defaultValue="jane"
+          options={peopleOptions}
+        />
+
+        <InputComboboxMultiple
+          label="Reviewers"
+          placeholder="Select reviewers"
+          defaultValue={["jane", "john"]}
+          options={peopleOptions}
+        />
       </div>
     </div>
   );
