@@ -11,6 +11,7 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 | Naming file    | kebab-case (`input-text.tsx`)                                            | PascalCase (`InputText.tsx`)                                  |
 | Providers      | `components/providers/{index,theme-provider}.tsx` + hotkey `d` + Toaster | `app/providers.tsx` (ThemeProvider aja)                       |
 | Utils          | `lib/utils.ts` (`cn`)                                                    | pakai `cn` dari `@heroui/react` langsung                      |
+| Palette        | cyan primary, navy dark (OKLCH)                                          | teal accent, palette sendiri — **tetap, gak diubah**          |
 | Style override | `cva` di dalam komponen                                                  | `styles/*.style.ts` (wrap `*Variants` HeroUI) — dipertahankan |
 | Layout         | Sidebar + header + SidebarTrigger                                        | belum ada                                                     |
 | Demo           | `app/page.tsx` + `page-client.tsx`                                       | `app/page.tsx` (template CNA) + `app/docs/page.tsx`           |
@@ -27,7 +28,8 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 3. **Superset**: `labelPlacement="left"` dan `descriptionPlacement` dipertahankan.
 4. **Tanggal**: wrapper terima & emit `Date`, konversi ke `CalendarDate` di dalam.
 5. **Export style** ikut shadcn: `export default` untuk Input*, named export untuk primitive.
-6. **ESLint**: `eslint-config-prettier` aja (prettier gak jalan sebagai lint rule), sama seperti shadcn.
+6. **Palette** herouiv3 gak diubah. Prinsip umum: yang udah ada dipertahankan, cuma nambahin yang belum ada.
+7. **ESLint**: `eslint-config-prettier` aja (prettier gak jalan sebagai lint rule), sama seperti shadcn.
 
 ## Phase 0 — Fondasi & tooling ✅
 
@@ -39,7 +41,7 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 - [x] Scripts: tambah `typecheck`, `NODE_OPTIONS` memory di `dev`
 - [x] `package.json` metadata (name, version, license MIT, `type: module`) + `LICENSE.md`
 - [x] Bersihin template CNA (`public/*.svg`, page default), tambah `.gitkeep` di folder kosong
-- [x] Theme tokens di `globals.css`: samain arah palette (cyan primary, navy dark) ke variabel HeroUI (`--accent`, `--background`, `--surface`, ...)
+- [x] Theme tokens di `globals.css`: **palette herouiv3 dipertahankan** (gak ikut shadcn). Token lain (`*-hover`, `*-soft`, `*-secondary`, ...) diturunkan otomatis oleh `@heroui/styles` via `color-mix`, jadi gak perlu ditambah
 
 **Done when:** `lint`, `typecheck`, `build` hijau; struktur folder identik dengan shadcn.
 
