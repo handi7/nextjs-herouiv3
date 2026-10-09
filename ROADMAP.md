@@ -30,7 +30,8 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 5. **Nama file**: komponen PascalCase (`components/ui/InputNumber.tsx`), hooks camelCase (`hooks/useMounted.ts`); path import beda dari shadcn, tapi nama komponen & API sama.
 6. **Export style** ikut shadcn: `export default` untuk Input*, named export untuk primitive.
 7. **Palette** herouiv3 gak diubah. Prinsip umum: yang udah ada dipertahankan, cuma nambahin yang belum ada.
-8. **ESLint**: `eslint-config-prettier` aja (prettier gak jalan sebagai lint rule), sama seperti shadcn.
+8. **Gak ada file re-export**: komponen HeroUI yang gak ditambahin apa-apa di-import langsung dari `@heroui/react`. File di `components/ui/` cuma buat wrapper yang nambah API/default/behaviour.
+9. **ESLint**: `eslint-config-prettier` aja (prettier gak jalan sebagai lint rule), sama seperti shadcn.
 
 ## Phase 0 — Fondasi & tooling ✅
 
@@ -57,7 +58,7 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
       `size`, `isLoading`, `loadingText`, `startContent`, `endContent`; spinner gantiin `startContent` saat loading.
       Export `{ Button, buttonVariants }` (`buttonVariants` = `buttonStyle` dari `styles/`).
 - [x] `Icon` — `DynamicIcon` dari `lucide-react/dynamic`, default size 18. **Cuma buat nama icon dari data (DB)**; icon statis import langsung dari `lucide-react` (dijaga ESLint `no-restricted-syntax`, beda dari shadcn yang pakai `<Icon>` di mana-mana)
-- [x] `Spinner`, `Label`, `Separator`, `Skeleton` — re-export HeroUI biar path import sama dengan shadcn
+- [x] `Spinner`, `Label`, `Separator`, `Skeleton` — **gak dibikin file**, import langsung dari `@heroui/react` (file yang cuma nerusin export gak dibikin)
 
 ## Phase 2 — Text input
 
@@ -92,10 +93,10 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 
 | shadcn    | HeroUI basis                                                                                                           |
 | --------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `Dialog`  | `Modal` (+ `styles/modal.style.ts`)                                                                                    |
-| `Sheet`   | `Drawer`                                                                                                               |
-| `Popover` | `Popover`                                                                                                              |
-| `Tooltip` | `Tooltip`                                                                                                              |
+| `Dialog`  | `Modal` (+ `styles/modal.style.ts`) — bikin wrapper cuma kalau nambah default/API, kalau nggak pakai langsung          |
+| `Sheet`   | `Drawer` — sama, wrapper cuma kalau nambah sesuatu                                                                     |
+| `Popover` | langsung `Popover` dari `@heroui/react`, gak bikin file                                                                |
+| `Tooltip` | langsung `Tooltip` dari `@heroui/react`, gak bikin file                                                                |
 | `Sonner`  | `Toast` bawaan HeroUI (gak perlu sonner); pasang provider/region di Providers, bikin helper `toast()` dengan API mirip |
 
 ## Phase 7 — App shell & demo

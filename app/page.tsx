@@ -1,11 +1,9 @@
+import { Separator, Skeleton, Spinner } from "@heroui/react";
 import { ArrowRightIcon, PlusIcon, UserIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/Button";
 import InputNumber from "@/components/ui/InputNumber";
 import InputText from "@/components/ui/InputText";
-import { Separator } from "@/components/ui/Separator";
-import { Skeleton } from "@/components/ui/Skeleton";
-import { Spinner } from "@/components/ui/Spinner";
 
 export default function Page() {
   return (

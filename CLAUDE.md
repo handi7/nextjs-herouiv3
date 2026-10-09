@@ -22,3 +22,10 @@ npx eslint app components hooks lib styles --rule '{"complexity":["warn",0],"son
   e.g. a menu or category icon stored in the database. It loads icons at runtime, so using it for a
   fixed icon costs a request and loses type-checking.
 - ESLint enforces this: `<Icon name="...">` with a literal name is an error.
+
+## components/ui
+
+- Only add a file when it adds something: a new API (`label`, `errorMessage`, `options`, ...),
+  defaults, or behavior. A HeroUI component used as-is is imported straight from `@heroui/react`
+  (`import { Spinner } from "@heroui/react"`), never through a file that only re-exports it.
+- File names: components PascalCase (`InputNumber.tsx`), hooks camelCase (`useMounted.ts`).
