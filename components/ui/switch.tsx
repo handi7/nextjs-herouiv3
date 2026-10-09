@@ -2,7 +2,7 @@
 
 import { Switch as HeroSwitch, Label, SwitchProps } from "@heroui/react";
 
-import useMounted from "@/hooks/useMounted";
+import useMounted from "@/hooks/use-mounted";
 
 interface Props extends SwitchProps {
   label?: string;
