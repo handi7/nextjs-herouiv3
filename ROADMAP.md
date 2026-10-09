@@ -131,10 +131,10 @@ Semua dipakai langsung dari `@heroui/react` (gak ada wrapper, karena gak ada yan
 
 - [x] State sidebar desktop (buka/ciut) disimpan di cookie `sidebar_state` dan dibaca root layout → tetap sama setelah reload, tanpa kedip. Konsekuensi: route dirender dinamis (`cookies()` di layout).
 
-## Phase 8 — Docs & distribusi
+## Phase 8 — Docs & distribusi ✅
 
 - [x] README dengan struktur yang sama: Stack, Getting Started, Scripts, Project Structure (baru), UI Components, Component Usage, Formatting, Linting (termasuk complexity limit), Theme
-- [ ] (Opsional) `registry.json` + build `public/r/*.json` supaya bisa `npx shadcn add <url>` — `registry:ui` bisa ngirim file apa aja, dependencies diisi `@heroui/react`/`@heroui/styles`
+- [ ] ~~(Opsional) `registry.json` + build `public/r/*.json` supaya bisa `npx shadcn add <url>` — `registry:ui` bisa ngirim file apa aja, dependencies diisi `@heroui/react`/`@heroui/styles`~~ — **di-skip** (project tujuan butuh `components.json` shadcn dulu); bisa dikerjain nanti kalau kepake
 
 ## Urutan kerja yang disarankan
 
