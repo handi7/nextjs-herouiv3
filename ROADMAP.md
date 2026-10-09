@@ -120,11 +120,16 @@ Semua dipakai langsung dari `@heroui/react` (gak ada wrapper, karena gak ada yan
 - [x] Demo di `app/page-client.tsx` (`ToastDemo`, `OverlayDemo`)
 - [x] Radius toast ikut `--radius`; drawer tetap tanpa radius karena nempel ke pinggir layar
 
-## Phase 7 — App shell & demo
+## Phase 7 — App shell & demo ✅
 
-- [ ] `components/AppSidebar.tsx` — HeroUI v3 **gak punya Sidebar**, bikin custom: collapsible ke icon di desktop, `Drawer` di mobile, port `hooks/useMobile.ts`
-- [ ] `app/layout.tsx` — font Inter + Geist Mono, sticky header + trigger, sama seperti shadcn
-- [ ] `app/page.tsx` + `page-client.tsx` — demo semua komponen dengan urutan & contoh yang sama kayak shadcn (gabung isi `app/docs/page.tsx`, lalu hapus)
+- [x] `components/ui/Sidebar.tsx` — sidebar custom (HeroUI v3 gak punya): `SidebarProvider` (⌘/Ctrl + B), `Sidebar` (desktop ciut jadi icon 56px ↔ 256px, mobile jadi `Drawer` dari kiri), `SidebarGroup`, `SidebarItem` (tooltip pas ciut, nutup drawer pas diklik di mobile), `SidebarTrigger`, `SidebarInset`
+- [x] `hooks/useMobile.ts` — `useSyncExternalStore` + `matchMedia`, `false` saat SSR
+- [x] `components/AppSidebar.tsx` — brand, Dashboard, link ke tiap section demo, Repository
+- [x] `app/layout.tsx` — sidebar + header sticky dengan trigger. Font tetap Geist (gak ganti ke Inter kayak shadcn)
+- [x] `app/page.tsx` — demo dikelompokin per section (`#buttons`, `#feedback`, `#text`, `#placement`, `#selection`, `#toggles`, `#dates`); isi `/docs` digabung lalu `/docs` dihapus
+- [x] Fix hydration mismatch `InputNumber` di HP: `inputMode` sekarang ditentuin dari `minValue` (bukan user agent)
+
+State sidebar (buka/ciut) belum disimpan antar reload.
 
 ## Phase 8 — Docs & distribusi
 

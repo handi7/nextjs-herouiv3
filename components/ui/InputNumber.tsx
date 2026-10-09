@@ -74,6 +74,7 @@ function InputNumber(props: InputNumberProps) {
           endContent={endContent}
           hideStepper={hideStepper}
           placeholder={placeholder}
+          inputMode={numberInputMode(rest.minValue)}
           classNames={classNames}
         />
       </FieldShell>
@@ -85,10 +86,19 @@ function InputNumber(props: InputNumberProps) {
 // group doesn't provide, so the slot classes are applied to plain elements instead.
 const addonSlots = inputGroupVariants();
 
+/**
+ * React Aria picks the input mode from the user agent, so server and phone render different
+ * values and hydration fails. Pick it from the props instead: decimal keypad when negatives
+ * aren't allowed, full keyboard otherwise (the iOS numeric keypad has no minus sign).
+ */
+function numberInputMode(minValue: number | undefined) {
+  return minValue !== undefined && minValue >= 0 ? "decimal" : "text";
+}
+
 type NumberGroupProps = Pick<
   InputNumberProps,
   "startContent" | "endContent" | "hideStepper" | "placeholder" | "classNames"
->;
+> & { inputMode: ReturnType<typeof numberInputMode> };
 
 /**
  * HeroUI sizes the group's grid columns from the stepper buttons only, so the columns are set
@@ -103,7 +113,7 @@ function groupColumns({ startContent, endContent, hideStepper }: NumberGroupProp
 }
 
 function NumberGroup(props: NumberGroupProps) {
-  const { startContent, endContent, hideStepper, placeholder, classNames } = props;
+  const { startContent, endContent, hideStepper, placeholder, inputMode, classNames } = props;
 
   return (
     <NumberField.Group
@@ -114,7 +124,11 @@ function NumberGroup(props: NumberGroupProps) {
 
       {startContent && <div className={addonSlots.prefix()}>{startContent}</div>}
 
-      <NumberField.Input placeholder={placeholder} className={cn("w-full", [classNames?.input])} />
+      <NumberField.Input
+        placeholder={placeholder}
+        inputMode={inputMode}
+        className={cn("w-full", [classNames?.input])}
+      />
 
       {endContent && <div className={addonSlots.suffix()}>{endContent}</div>}
 

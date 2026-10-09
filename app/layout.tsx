@@ -5,7 +5,9 @@ import type { PropsWithChildren } from "react";
 
 import "./globals.css";
 
+import AppSidebar from "@/components/AppSidebar";
 import Providers from "@/components/providers";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/Sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,8 +31,20 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="flex min-h-dvh flex-col bg-background text-foreground">
-        <Providers>{children}</Providers>
+      <body className="bg-background text-foreground">
+        <Providers>
+          <SidebarProvider>
+            <AppSidebar />
+            <SidebarInset>
+              <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 border-b border-separator bg-background/80 px-4 backdrop-blur">
+                <SidebarTrigger />
+                <div className="h-4 w-px bg-separator" />
+                <span className="text-sm font-medium">Components</span>
+              </header>
+              {children}
+            </SidebarInset>
+          </SidebarProvider>
+        </Providers>
       </body>
     </html>
   );

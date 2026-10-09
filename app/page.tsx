@@ -1,10 +1,13 @@
+import Link from "next/link";
+
 import { Separator, Skeleton, Spinner } from "@heroui/react";
 import { ArrowRightIcon, PlusIcon, UserIcon } from "lucide-react";
+import { PropsWithChildren } from "react";
 
 import { DateDemo, OverlayDemo, ToastDemo } from "./page-client";
 
 import ThemeSwitch from "@/components/ThemeSwitch";
-import { Button } from "@/components/ui/Button";
+import { Button, buttonVariants } from "@/components/ui/Button";
 import InputCheckbox from "@/components/ui/InputCheckbox";
 import InputCheckboxGroup from "@/components/ui/InputCheckboxGroup";
 import InputCombobox from "@/components/ui/InputCombobox";
@@ -31,14 +34,35 @@ const peopleOptions = [
   { label: "Maria Garcia", value: "maria" },
 ];
 
+interface DemoSectionProps extends PropsWithChildren {
+  id: string;
+  title: string;
+}
+
+function DemoSection({ id, title, children }: DemoSectionProps) {
+  return (
+    <section id={id} className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="text-base font-medium">{title}</h2>
+      {children}
+      <Separator className="mt-4" />
+    </section>
+  );
+}
+
 export default function Page() {
   return (
     <div className="p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
+      <div className="flex max-w-xl min-w-0 flex-col gap-8 text-sm leading-loose">
         <div>
-          <h1 className="font-medium">Project ready!</h1>
+          <h1 className="text-lg font-medium">Project ready!</h1>
           <p>You may now add components and start building.</p>
-          <div className="mt-2 flex flex-wrap gap-2">
+          <p className="font-mono text-xs text-muted">
+            (Press <kbd>d</kbd> to toggle dark mode, <kbd>⌘/Ctrl + B</kbd> to toggle the sidebar)
+          </p>
+        </div>
+
+        <DemoSection id="buttons" title="Buttons">
+          <div className="flex flex-wrap gap-2">
             <Button startContent={<PlusIcon />}>Create</Button>
             <Button endContent={<ArrowRightIcon />} variant="outline">
               Continue
@@ -46,140 +70,184 @@ export default function Page() {
             <Button isLoading loadingText="Saving...">
               Save
             </Button>
+            <Link href="/#buttons" className={buttonVariants({ variant: "secondary" })}>
+              Link as button
+            </Link>
           </div>
-        </div>
-        <ToastDemo />
 
-        <OverlayDemo />
+          <div className="flex items-center gap-3">
+            <Spinner size="sm" />
+            <Skeleton className="h-4 w-40 rounded-lg" />
+          </div>
+        </DemoSection>
 
-        <div className="font-mono text-xs text-muted">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
+        <DemoSection id="feedback" title="Feedback & overlays">
+          <ToastDemo />
+          <OverlayDemo />
+        </DemoSection>
 
-        <div className="flex items-center gap-3">
-          <Spinner size="sm" />
-          <Skeleton className="h-4 w-40 rounded-lg" />
-        </div>
+        <DemoSection id="text" title="Text & numbers">
+          <InputText
+            isRequired
+            label="Username"
+            placeholder="Username"
+            startContent={<UserIcon size={18} />}
+          />
 
-        <Separator />
+          <InputText
+            label="Email"
+            placeholder="you@example.com"
+            description="We'll never share your email."
+            errorMessage="Email is already taken."
+          />
 
-        <InputText
-          isRequired
-          label="Username"
-          placeholder="Username"
-          startContent={<UserIcon size={18} />}
-        />
+          <InputTextarea
+            isRequired
+            label="Description"
+            placeholder="Write a description..."
+            description="Keep it short and clear."
+          />
 
-        <InputText
-          label="Email"
-          placeholder="you@example.com"
-          description="We'll never share your email."
-          errorMessage="Email is already taken."
-        />
+          <InputNumber isRequired label="Quantity" description="Minimum 0." minValue={0} />
 
-        <InputTextarea
-          isRequired
-          label="Description"
-          placeholder="Write a description..."
-          description="Keep it short and clear."
-        />
+          <InputNumber
+            isRequired
+            hideStepper
+            label="Amount"
+            placeholder="0"
+            minValue={0}
+            startContent="Rp"
+          />
 
-        <InputNumber isRequired label="Quantity" description="Minimum 0." minValue={0} />
+          <InputFormattedNumber
+            label="Formatted amount"
+            startContent="Rp"
+            defaultValue={1250000.5}
+          />
+        </DemoSection>
 
-        <InputNumber
-          isRequired
-          hideStepper
-          label="Amount"
-          placeholder="0"
-          minValue={0}
-          startContent="Rp"
-        />
+        <DemoSection id="placement" title="Label placement">
+          <InputText
+            isRequired
+            label="Name"
+            labelPlacement="left"
+            placeholder="Type your name"
+            startContent="Mr."
+          />
 
-        <InputFormattedNumber label="Formatted amount" startContent="Rp" defaultValue={1250000.5} />
+          <InputText
+            isRequired
+            label="Email"
+            labelPlacement="left"
+            placeholder="Type your email"
+            description="Description above the field."
+            descriptionPlacement="top"
+            errorMessage="Enter a valid email address."
+          />
 
-        <InputSlider
-          isRequired
-          showValue
-          label="Progress"
-          description="Adjust the progress value."
-          defaultValue={45}
-          step={5}
-        />
+          <InputNumber
+            isDisabled
+            label="Price"
+            labelPlacement="left"
+            description="Disabled field."
+            startContent="Rp"
+          />
+        </DemoSection>
 
-        <InputSlider showValue label="Budget range" defaultValue={[20, 80]} step={5} />
+        <DemoSection id="selection" title="Selection">
+          <InputSelect
+            showClear
+            label="Status"
+            placeholder="Select status"
+            options={statusOptions}
+          />
 
-        <DateDemo />
+          <InputCombobox
+            label="Assignee"
+            placeholder="Select assignee"
+            defaultValue="jane"
+            options={peopleOptions}
+          />
 
-        <InputSelect showClear label="Status" placeholder="Select status" options={statusOptions} />
+          <InputComboboxMultiple
+            label="Reviewers"
+            placeholder="Select reviewers"
+            defaultValue={["jane", "john"]}
+            options={peopleOptions}
+          />
+        </DemoSection>
 
-        <InputCombobox
-          label="Assignee"
-          placeholder="Select assignee"
-          defaultValue="jane"
-          options={peopleOptions}
-        />
+        <DemoSection id="toggles" title="Toggles & choices">
+          <InputCheckbox
+            isRequired
+            label="Accept terms"
+            description="You agree to the terms and privacy policy."
+          />
 
-        <InputComboboxMultiple
-          label="Reviewers"
-          placeholder="Select reviewers"
-          defaultValue={["jane", "john"]}
-          options={peopleOptions}
-        />
+          <InputSwitch
+            defaultSelected
+            label="Email notifications"
+            description="Receive email updates for important activity."
+          />
 
-        <InputCheckbox
-          isRequired
-          label="Accept terms"
-          description="You agree to the terms and privacy policy."
-        />
+          <ThemeSwitch />
 
-        <InputSwitch
-          defaultSelected
-          label="Email notifications"
-          description="Receive email updates for important activity."
-        />
+          <InputCheckboxGroup
+            isRequired
+            label="Permissions"
+            description="Select one or more permissions."
+            defaultValue={["read"]}
+            options={[
+              { label: "Create", value: "create" },
+              { label: "Read", value: "read" },
+              { label: "Update", value: "update" },
+              { label: "Delete", value: "delete", isDisabled: true },
+            ]}
+          />
 
-        <ThemeSwitch />
+          <InputRadioGroup
+            isRequired
+            label="Visibility"
+            description="Choose who can see this item."
+            defaultValue="public"
+            options={[
+              { label: "Public", value: "public", description: "Anyone with the link." },
+              { label: "Private", value: "private", description: "Only you." },
+              { label: "Team only", value: "team", isDisabled: true },
+            ]}
+          />
 
-        <InputCheckboxGroup
-          isRequired
-          label="Permissions"
-          description="Select one or more permissions."
-          defaultValue={["read"]}
-          options={[
-            { label: "Create", value: "create" },
-            { label: "Read", value: "read" },
-            { label: "Update", value: "update" },
-            { label: "Delete", value: "delete", isDisabled: true },
-          ]}
-        />
+          <InputRadioGroup
+            label="Size"
+            labelPlacement="left"
+            orientation="horizontal"
+            defaultValue="md"
+            options={[
+              { label: "Small", value: "sm" },
+              { label: "Medium", value: "md" },
+              { label: "Large", value: "lg" },
+            ]}
+          />
 
-        <InputRadioGroup
-          isRequired
-          label="Visibility"
-          description="Choose who can see this item."
-          defaultValue="public"
-          options={[
-            { label: "Public", value: "public", description: "Anyone with the link." },
-            { label: "Private", value: "private", description: "Only you." },
-            { label: "Team only", value: "team", isDisabled: true },
-          ]}
-        />
+          <InputCheckbox label="Subscribe" errorMessage="You must subscribe to continue." />
 
-        <InputRadioGroup
-          label="Size"
-          labelPlacement="left"
-          orientation="horizontal"
-          defaultValue="md"
-          options={[
-            { label: "Small", value: "sm" },
-            { label: "Medium", value: "md" },
-            { label: "Large", value: "lg" },
-          ]}
-        />
+          <InputSwitch label="Two-factor auth" errorMessage="Required for admins." />
+        </DemoSection>
 
-        <InputCheckbox label="Subscribe" errorMessage="You must subscribe to continue." />
+        <DemoSection id="dates" title="Range & dates">
+          <InputSlider
+            isRequired
+            showValue
+            label="Progress"
+            description="Adjust the progress value."
+            defaultValue={45}
+            step={5}
+          />
 
-        <InputSwitch label="Two-factor auth" errorMessage="Required for admins." />
+          <InputSlider showValue label="Budget range" defaultValue={[20, 80]} step={5} />
+
+          <DateDemo />
+        </DemoSection>
       </div>
     </div>
   );
