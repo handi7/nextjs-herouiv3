@@ -1,7 +1,6 @@
 "use client";
 
-import { InputGroup, InputProps, TextField } from "@heroui/react";
-import { ReactNode } from "react";
+import { TextArea, TextAreaProps, TextField } from "@heroui/react";
 
 import {
   type FieldClassNames,
@@ -12,17 +11,14 @@ import {
 } from "@/components/ui/Field";
 import { cn } from "@/lib/utils";
 
-export interface InputTextProps extends Omit<InputProps, "className">, FieldProps {
+export interface InputTextareaProps extends Omit<TextAreaProps, "className">, FieldProps {
   className?: string;
   classNames?: FieldClassNames & {
-    inputGroup?: string;
-    input?: string;
+    textarea?: string;
   };
-  startContent?: ReactNode;
-  endContent?: ReactNode;
 }
 
-function InputText(props: InputTextProps) {
+function InputTextarea(props: InputTextareaProps) {
   const {
     isRequired,
     isDisabled,
@@ -34,8 +30,6 @@ function InputText(props: InputTextProps) {
     errorMessage,
     className,
     classNames,
-    startContent,
-    endContent,
     ...rest
   } = props;
 
@@ -59,16 +53,10 @@ function InputText(props: InputTextProps) {
         isInvalid={invalid}
         classNames={classNames}
       >
-        <InputGroup className={classNames?.inputGroup}>
-          {startContent && <InputGroup.Prefix>{startContent}</InputGroup.Prefix>}
-
-          <InputGroup.Input {...rest} className={cn("w-full", [classNames?.input])} />
-
-          {endContent && <InputGroup.Suffix>{endContent}</InputGroup.Suffix>}
-        </InputGroup>
+        <TextArea {...rest} className={cn("w-full", [classNames?.textarea])} />
       </FieldShell>
     </TextField>
   );
 }
 
-export default InputText;
+export default InputTextarea;

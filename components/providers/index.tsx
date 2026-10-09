@@ -1,12 +1,15 @@
 "use client";
 
-import { ThemeProvider } from "next-themes";
+import { Toast } from "@heroui/react";
 import { PropsWithChildren } from "react";
+
+import { ThemeProvider } from "./ThemeProvider";
 
 function Providers({ children }: PropsWithChildren) {
   return (
-    <ThemeProvider enableSystem attribute="class" defaultTheme="system">
+    <ThemeProvider>
       {children}
+      <Toast.Provider placement="top" />
     </ThemeProvider>
   );
 }

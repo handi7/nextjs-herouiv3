@@ -1,17 +1,22 @@
 {
-  "name": "nextjs-herouiv3",
-  "version": "0.1.0",
-  "private": true,
+  "name": "next-heroui",
+  "version": "0.0.1",
+  "type": "module",
+  "private": false,
+  "license": "MIT",
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='--max-old-space-size=4096' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "format": "prettier --write ."
+    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@heroui/react": "^3.0.2",
     "@heroui/styles": "^3.0.2",
+    "@internationalized/date": "^3.12.4",
+    "lucide-react": "^1.49.0",
     "next": "16.2.2",
     "next-themes": "^0.4.6",
     "react": "19.2.4",
@@ -26,9 +31,10 @@
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.2",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-sonarjs": "^4.2.2",
     "postcss": "^8.5.8",
     "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.2"
   }

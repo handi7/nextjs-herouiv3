@@ -1,65 +1,254 @@
-import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+import { Separator, Skeleton, Spinner } from "@heroui/react";
+import { ArrowRightIcon, PlusIcon, UserIcon } from "lucide-react";
+import { PropsWithChildren } from "react";
+
+import { DateDemo, OverlayDemo, ToastDemo } from "./page-client";
+
+import ThemeSwitch from "@/components/ThemeSwitch";
+import { Button, buttonVariants } from "@/components/ui/Button";
+import InputCheckbox from "@/components/ui/InputCheckbox";
+import InputCheckboxGroup from "@/components/ui/InputCheckboxGroup";
+import InputCombobox from "@/components/ui/InputCombobox";
+import InputComboboxMultiple from "@/components/ui/InputComboboxMultiple";
+import InputFormattedNumber from "@/components/ui/InputFormattedNumber";
+import InputNumber from "@/components/ui/InputNumber";
+import InputRadioGroup from "@/components/ui/InputRadioGroup";
+import InputSelect from "@/components/ui/InputSelect";
+import InputSlider from "@/components/ui/InputSlider";
+import InputSwitch from "@/components/ui/InputSwitch";
+import InputText from "@/components/ui/InputText";
+import InputTextarea from "@/components/ui/InputTextarea";
+
+const statusOptions = [
+  { label: "Active", value: "active" },
+  { label: "Inactive", value: "inactive" },
+  { label: "Archived", value: "archived", isDisabled: true },
+];
+
+const peopleOptions = [
+  { label: "Jane Doe", value: "jane" },
+  { label: "John Smith", value: "john" },
+  { label: "Alex Johnson", value: "alex" },
+  { label: "Maria Garcia", value: "maria" },
+];
+
+interface DemoSectionProps extends PropsWithChildren {
+  id: string;
+  title: string;
+}
+
+function DemoSection({ id, title, children }: DemoSectionProps) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center font-sans">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <section id={id} className="flex scroll-mt-20 flex-col gap-4">
+      <h2 className="text-base font-medium">{title}</h2>
+      {children}
+      <Separator className="mt-4" />
+    </section>
+  );
+}
+
+export default function Page() {
+  return (
+    <div className="p-6">
+      <div className="flex max-w-xl min-w-0 flex-col gap-8 text-sm leading-loose">
+        <div>
+          <h1 className="text-lg font-medium">Project ready!</h1>
+          <p>You may now add components and start building.</p>
+          <p className="font-mono text-xs text-muted">
+            (Press <kbd>d</kbd> to toggle dark mode, <kbd>⌘/Ctrl + B</kbd> to toggle the sidebar)
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px] animate-spin"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+
+        <DemoSection id="buttons" title="Buttons">
+          <div className="flex flex-wrap gap-2">
+            <Button startContent={<PlusIcon />}>Create</Button>
+            <Button endContent={<ArrowRightIcon />} variant="outline">
+              Continue
+            </Button>
+            <Button isLoading loadingText="Saving...">
+              Save
+            </Button>
+            <Link href="/#buttons" className={buttonVariants({ variant: "secondary" })}>
+              Link as button
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Spinner size="sm" />
+            <Skeleton className="h-4 w-40 rounded-lg" />
+          </div>
+        </DemoSection>
+
+        <DemoSection id="feedback" title="Feedback & overlays">
+          <ToastDemo />
+          <OverlayDemo />
+        </DemoSection>
+
+        <DemoSection id="text" title="Text & numbers">
+          <InputText
+            isRequired
+            label="Username"
+            placeholder="Username"
+            startContent={<UserIcon size={18} />}
+          />
+
+          <InputText
+            label="Email"
+            placeholder="you@example.com"
+            description="We'll never share your email."
+            errorMessage="Email is already taken."
+          />
+
+          <InputTextarea
+            isRequired
+            label="Description"
+            placeholder="Write a description..."
+            description="Keep it short and clear."
+          />
+
+          <InputNumber isRequired label="Quantity" description="Minimum 0." minValue={0} />
+
+          <InputNumber
+            isRequired
+            hideStepper
+            label="Amount"
+            placeholder="0"
+            minValue={0}
+            startContent="Rp"
+          />
+
+          <InputFormattedNumber
+            label="Formatted amount"
+            startContent="Rp"
+            defaultValue={1250000.5}
+          />
+        </DemoSection>
+
+        <DemoSection id="placement" title="Label placement">
+          <InputText
+            isRequired
+            label="Name"
+            labelPlacement="left"
+            placeholder="Type your name"
+            startContent="Mr."
+          />
+
+          <InputText
+            isRequired
+            label="Email"
+            labelPlacement="left"
+            placeholder="Type your email"
+            description="Description above the field."
+            descriptionPlacement="top"
+            errorMessage="Enter a valid email address."
+          />
+
+          <InputNumber
+            isDisabled
+            label="Price"
+            labelPlacement="left"
+            description="Disabled field."
+            startContent="Rp"
+          />
+        </DemoSection>
+
+        <DemoSection id="selection" title="Selection">
+          <InputSelect
+            showClear
+            label="Status"
+            placeholder="Select status"
+            options={statusOptions}
+          />
+
+          <InputCombobox
+            label="Assignee"
+            placeholder="Select assignee"
+            defaultValue="jane"
+            options={peopleOptions}
+          />
+
+          <InputComboboxMultiple
+            label="Reviewers"
+            placeholder="Select reviewers"
+            defaultValue={["jane", "john"]}
+            options={peopleOptions}
+          />
+        </DemoSection>
+
+        <DemoSection id="toggles" title="Toggles & choices">
+          <InputCheckbox
+            isRequired
+            label="Accept terms"
+            description="You agree to the terms and privacy policy."
+          />
+
+          <InputSwitch
+            defaultSelected
+            label="Email notifications"
+            description="Receive email updates for important activity."
+          />
+
+          <ThemeSwitch />
+
+          <InputCheckboxGroup
+            isRequired
+            label="Permissions"
+            description="Select one or more permissions."
+            defaultValue={["read"]}
+            options={[
+              { label: "Create", value: "create" },
+              { label: "Read", value: "read" },
+              { label: "Update", value: "update" },
+              { label: "Delete", value: "delete", isDisabled: true },
+            ]}
+          />
+
+          <InputRadioGroup
+            isRequired
+            label="Visibility"
+            description="Choose who can see this item."
+            defaultValue="public"
+            options={[
+              { label: "Public", value: "public", description: "Anyone with the link." },
+              { label: "Private", value: "private", description: "Only you." },
+              { label: "Team only", value: "team", isDisabled: true },
+            ]}
+          />
+
+          <InputRadioGroup
+            label="Size"
+            labelPlacement="left"
+            orientation="horizontal"
+            defaultValue="md"
+            options={[
+              { label: "Small", value: "sm" },
+              { label: "Medium", value: "md" },
+              { label: "Large", value: "lg" },
+            ]}
+          />
+
+          <InputCheckbox label="Subscribe" errorMessage="You must subscribe to continue." />
+
+          <InputSwitch label="Two-factor auth" errorMessage="Required for admins." />
+        </DemoSection>
+
+        <DemoSection id="dates" title="Range & dates">
+          <InputSlider
+            isRequired
+            showValue
+            label="Progress"
+            description="Adjust the progress value."
+            defaultValue={45}
+            step={5}
+          />
+
+          <InputSlider showValue label="Budget range" defaultValue={[20, 80]} step={5} />
+
+          <DateDemo />
+        </DemoSection>
+      </div>
     </div>
   );
 }

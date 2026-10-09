@@ -35,7 +35,7 @@
 
     /* Radius */
     --radius: 0.5rem;
-    --field-radius: calc(var(--radius) * 1.5);
+    --field-radius: var(--radius); /* same radius as buttons, overlays and tags */
 
     /* == Light Theme Variables == */
 
@@ -141,7 +141,7 @@
     --default-foreground: var(--snow);
 
     /* Form Fields */
-    --field-background: oklch(0.2103 0.0059 285.89);
+    --field-background: oklch(100% 0 0 / 6%); /* thin white over the background */
     --field-foreground: var(--foreground);
 
     /* Status Colors */
@@ -168,5 +168,54 @@
     --surface-shadow: 0 0 0 0 transparent inset; /* No shadow on dark mode */
     --overlay-shadow: 0 0 1px 0 rgba(255, 255, 255, 0.3) inset;
     --field-shadow: 0 0 0 0 transparent inset; /* Transparent shadow to allow ring utilities to work */
+  }
+}
+
+/*
+ * One radius for every control and surface: fields (via --field-radius), buttons, overlays,
+ * toasts, list items and tags. HeroUI's defaults differ per component (pill buttons, 24px
+ * popovers, ...). Small toggles (checkbox, radio, switch) keep their own shapes, and drawers
+ * stay square because they're attached to the screen edge.
+ */
+@layer components {
+  .button,
+  .tag,
+  .list-box-item,
+  .popover,
+  .tooltip,
+  .toast,
+  .select__popover,
+  .combo-box__popover,
+  .autocomplete__popover,
+  .dropdown__popover,
+  .date-picker__popover,
+  .date-range-picker__popover,
+  .modal__dialog:not(.modal__dialog--full) {
+    border-radius: var(--radius);
+  }
+}
+
+/*
+ * Form consistency overrides:
+ * - Errors are red on every input. HeroUI renders checkbox/switch/radio errors muted.
+ * - InputCheckboxGroup/InputRadioGroup lay out their items in their own list, so HeroUI's
+ *   per-item top margin and the horizontal radio group's row layout on the root are reset.
+ */
+@layer components {
+  .checkbox > .field-error,
+  .switch > .field-error,
+  .radio > .field-error {
+    color: var(--danger);
+  }
+
+  .checkbox-group [data-slot="checkbox"],
+  .radio-group[data-orientation="vertical"] [data-slot="radio"] {
+    margin-top: 0;
+  }
+
+  .radio-group[data-orientation="horizontal"] {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.25rem;
   }
 }

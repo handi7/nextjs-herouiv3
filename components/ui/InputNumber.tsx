@@ -1,125 +1,139 @@
 "use client";
 
-import {
-  FieldError,
-  Label,
-  NumberField,
-  NumberFieldProps,
-  cn,
-  descriptionVariants,
-} from "@heroui/react";
-import { PropsWithChildren } from "react";
+import { NumberField, NumberFieldProps } from "@heroui/react";
+import { inputGroupVariants } from "@heroui/styles";
+import { ReactNode } from "react";
 
-export interface InputNumberProps extends NumberFieldProps {
-  isRequired?: boolean;
-  isDisabled?: boolean;
-  label?: string;
-  description?: string;
+import {
+  type FieldClassNames,
+  type FieldProps,
+  FieldShell,
+  fieldRootClassName,
+  resolveInvalid,
+} from "@/components/ui/Field";
+import { cn } from "@/lib/utils";
+
+type InputNumberClassNames = FieldClassNames & {
+  inputGroup?: string;
+  input?: string;
+  incrementButton?: string;
+  decrementButton?: string;
+};
+
+export interface InputNumberProps extends Omit<NumberFieldProps, "className">, FieldProps {
   className?: string;
-  classNames?: {
-    base?: string;
-    label?: string;
-    labelWrapper?: string;
-    inputWrapper?: string;
-    inputGroup?: string;
-    input?: string;
-    description?: string;
-    errorMessage?: string;
-    incrementButton?: string;
-    decrementButton?: string;
-  };
-  labelPlacement?: "top" | "left";
-  descriptionPlacement?: "top" | "bottom";
-  isInvalid?: boolean;
-  errorMessage?: string;
+  classNames?: InputNumberClassNames;
+  startContent?: ReactNode;
+  endContent?: ReactNode;
+  hideStepper?: boolean;
+  placeholder?: string;
 }
 
 function InputNumber(props: InputNumberProps) {
   const {
     isRequired,
     isDisabled,
+    isInvalid,
     label,
+    labelPlacement,
     description,
+    descriptionPlacement,
+    errorMessage,
     className,
     classNames,
-    labelPlacement,
-    descriptionPlacement = "bottom",
-    isInvalid,
-    errorMessage,
+    startContent,
+    endContent,
+    hideStepper,
+    placeholder,
     ...rest
   } = props;
 
+  const invalid = resolveInvalid(isInvalid, errorMessage);
+
   return (
     <NumberField
-      isInvalid={isInvalid}
-      isDisabled={isDisabled}
       {...rest}
-      className={cn("w-full flex flex-col gap-1", [
-        { "sm:flex-row sm:gap-4": labelPlacement === "left" },
-        classNames?.base,
-        className,
-      ])}
+      isRequired={isRequired}
+      isDisabled={isDisabled}
+      isInvalid={invalid}
+      className={fieldRootClassName(labelPlacement, classNames?.base, className)}
     >
-      {label && (
-        <div
-          className={cn("flex flex-col gap-1", [
-            { "sm:w-[150px] sm:flex-none sm:mt-2": labelPlacement === "left" },
-            classNames?.labelWrapper,
-          ])}
-        >
-          <Label
-            isRequired={isRequired}
-            isDisabled={isDisabled}
-            isInvalid={isInvalid}
-            className={cn("", [classNames?.label])}
-          >
-            {label}
-          </Label>
-
-          {description && descriptionPlacement === "top" && (
-            <Description isDisabled={isDisabled} className={classNames?.description}>
-              {description}
-            </Description>
-          )}
-        </div>
-      )}
-
-      <div className={cn("w-full flex flex-col gap-1", [classNames?.inputWrapper])}>
-        <NumberField.Group className={cn("rounded-lg", [classNames?.inputGroup])}>
-          <NumberField.DecrementButton className={classNames?.decrementButton} />
-          <NumberField.Input className={cn("w-full", [classNames?.input])} />
-          <NumberField.IncrementButton className={classNames?.incrementButton} />
-        </NumberField.Group>
-
-        {description && descriptionPlacement === "bottom" && (
-          <Description
-            isDisabled={isDisabled}
-            className={cn("px-1 mt-1", [classNames?.description])}
-          >
-            {description}
-          </Description>
-        )}
-
-        <FieldError>{errorMessage}</FieldError>
-      </div>
+      <FieldShell
+        label={label}
+        labelPlacement={labelPlacement}
+        description={description}
+        descriptionPlacement={descriptionPlacement}
+        errorMessage={errorMessage}
+        isRequired={isRequired}
+        isDisabled={isDisabled}
+        isInvalid={invalid}
+        classNames={classNames}
+      >
+        <NumberGroup
+          startContent={startContent}
+          endContent={endContent}
+          hideStepper={hideStepper}
+          placeholder={placeholder}
+          inputMode={numberInputMode(rest.minValue)}
+          classNames={classNames}
+        />
+      </FieldShell>
     </NumberField>
   );
 }
 
-interface DescriptionProps extends PropsWithChildren {
-  isDisabled?: boolean;
-  className?: string;
+// InputGroup.Prefix/Suffix read their classes from InputGroup's context, which a NumberField
+// group doesn't provide, so the slot classes are applied to plain elements instead.
+const addonSlots = inputGroupVariants();
+
+/**
+ * React Aria picks the input mode from the user agent, so server and phone render different
+ * values and hydration fails. Pick it from the props instead: decimal keypad when negatives
+ * aren't allowed, full keyboard otherwise (the iOS numeric keypad has no minus sign).
+ */
+function numberInputMode(minValue: number | undefined) {
+  return minValue !== undefined && minValue >= 0 ? "decimal" : "text";
 }
 
-function Description({ children, isDisabled, className }: DescriptionProps) {
+type NumberGroupProps = Pick<
+  InputNumberProps,
+  "startContent" | "endContent" | "hideStepper" | "placeholder" | "classNames"
+> & { inputMode: ReturnType<typeof numberInputMode> };
+
+/**
+ * HeroUI sizes the group's grid columns from the stepper buttons only, so the columns are set
+ * here to make room for start/end content.
+ */
+function groupColumns({ startContent, endContent, hideStepper }: NumberGroupProps) {
+  const stepper = hideStepper ? [] : ["40px"];
+  const start = startContent ? ["auto"] : [];
+  const end = endContent ? ["auto"] : [];
+
+  return [...stepper, ...start, "1fr", ...end, ...stepper].join(" ");
+}
+
+function NumberGroup(props: NumberGroupProps) {
+  const { startContent, endContent, hideStepper, placeholder, inputMode, classNames } = props;
+
   return (
-    <span
-      className={descriptionVariants({
-        className: cn({ "opacity-50": isDisabled }, className),
-      })}
+    <NumberField.Group
+      className={classNames?.inputGroup}
+      style={{ gridTemplateColumns: groupColumns(props) }}
     >
-      {children}
-    </span>
+      {!hideStepper && <NumberField.DecrementButton className={classNames?.decrementButton} />}
+
+      {startContent && <div className={addonSlots.prefix()}>{startContent}</div>}
+
+      <NumberField.Input
+        placeholder={placeholder}
+        inputMode={inputMode}
+        className={cn("w-full", [classNames?.input])}
+      />
+
+      {endContent && <div className={addonSlots.suffix()}>{endContent}</div>}
+
+      {!hideStepper && <NumberField.IncrementButton className={classNames?.incrementButton} />}
+    </NumberField.Group>
   );
 }
 
