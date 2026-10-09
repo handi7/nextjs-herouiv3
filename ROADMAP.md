@@ -56,7 +56,7 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 - [x] `Button` — `variant` (nama variant HeroUI: `primary`, `secondary`, `tertiary`, `outline`, `ghost`, `danger`, `danger-soft`),
       `size`, `isLoading`, `loadingText`, `startContent`, `endContent`; spinner gantiin `startContent` saat loading.
       Export `{ Button, buttonVariants }` (`buttonVariants` = `buttonStyle` dari `styles/`).
-- [x] `Icon` — `DynamicIcon` dari `lucide-react/dynamic`, default size 18
+- [x] `Icon` — `DynamicIcon` dari `lucide-react/dynamic`, default size 18. **Cuma buat nama icon dari data (DB)**; icon statis import langsung dari `lucide-react` (dijaga ESLint `no-restricted-syntax`, beda dari shadcn yang pakai `<Icon>` di mana-mana)
 - [x] `Spinner`, `Label`, `Separator`, `Skeleton` — re-export HeroUI biar path import sama dengan shadcn
 
 ## Phase 2 — Text input

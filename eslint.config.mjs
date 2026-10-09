@@ -22,6 +22,25 @@ const eslintConfig = defineConfig([
       "sonarjs/cognitive-complexity": ["error", 15],
     },
   },
+  {
+    // <Icon> is for icon names that come from data (e.g. the database). Static icons are
+    // imported directly from lucide-react so they are tree-shaken and type-checked.
+    files: ["**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        ...[
+          "JSXOpeningElement[name.name='Icon'] > JSXAttribute[name.name='name'] > Literal",
+          "JSXOpeningElement[name.name='Icon'] > JSXAttribute[name.name='name'] > JSXExpressionContainer > Literal",
+          "JSXOpeningElement[name.name='Icon'] > JSXAttribute[name.name='name'] > JSXExpressionContainer > TemplateLiteral[expressions.length=0]",
+        ].map((selector) => ({
+          selector,
+          message:
+            "Static icon: import it from lucide-react (e.g. `import { PlusIcon } from \"lucide-react\"`). <Icon> is only for icon names from dynamic data.",
+        })),
+      ],
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

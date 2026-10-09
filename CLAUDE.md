@@ -14,3 +14,11 @@ To see every function's score instead of only the ones over the limit:
 ```bash
 npx eslint app components hooks lib styles --rule '{"complexity":["warn",0],"sonarjs/cognitive-complexity":["warn",0]}'
 ```
+
+## Icons
+
+- Static icons: import the component from `lucide-react` directly (`import { PlusIcon } from "lucide-react"`).
+- `components/ui/Icon.tsx` (lucide `DynamicIcon`) is **only** for icon names that come from data,
+  e.g. a menu or category icon stored in the database. It loads icons at runtime, so using it for a
+  fixed icon costs a request and loses type-checking.
+- ESLint enforces this: `<Icon name="...">` with a literal name is an error.

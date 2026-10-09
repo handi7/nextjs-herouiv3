@@ -1,5 +1,6 @@
+import { ArrowRightIcon, PlusIcon, UserIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/Button";
-import Icon from "@/components/ui/Icon";
 import InputNumber from "@/components/ui/InputNumber";
 import InputText from "@/components/ui/InputText";
 import { Separator } from "@/components/ui/Separator";
@@ -14,8 +15,8 @@ export default function Page() {
           <h1 className="font-medium">Project ready!</h1>
           <p>You may now add components and start building.</p>
           <div className="mt-2 flex flex-wrap gap-2">
-            <Button startContent={<Icon name="plus" />}>Create</Button>
-            <Button endContent={<Icon name="arrow-right" />} variant="outline">
+            <Button startContent={<PlusIcon />}>Create</Button>
+            <Button endContent={<ArrowRightIcon />} variant="outline">
               Continue
             </Button>
             <Button isLoading loadingText="Saving...">
@@ -38,7 +39,7 @@ export default function Page() {
           isRequired
           label="Username"
           placeholder="Username"
-          startContent={<Icon name="user" />}
+          startContent={<UserIcon size={18} />}
         />
 
         <InputText
