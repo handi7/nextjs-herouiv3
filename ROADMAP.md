@@ -27,14 +27,14 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
    `label`, `description`, `errorMessage`, `classNames`, `startContent`/`endContent`, `options`. `errorMessage` ada → otomatis `isInvalid`.
 3. **Superset**: `labelPlacement="left"` dan `descriptionPlacement` dipertahankan.
 4. **Tanggal**: wrapper terima & emit `Date`, konversi ke `CalendarDate` di dalam.
-5. **Nama file komponen** PascalCase (`components/ui/InputNumber.tsx`); path import beda dari shadcn, tapi nama komponen & API sama.
+5. **Nama file**: komponen PascalCase (`components/ui/InputNumber.tsx`), hooks camelCase (`hooks/useMounted.ts`); path import beda dari shadcn, tapi nama komponen & API sama.
 6. **Export style** ikut shadcn: `export default` untuk Input*, named export untuk primitive.
 7. **Palette** herouiv3 gak diubah. Prinsip umum: yang udah ada dipertahankan, cuma nambahin yang belum ada.
 8. **ESLint**: `eslint-config-prettier` aja (prettier gak jalan sebagai lint rule), sama seperti shadcn.
 
 ## Phase 0 — Fondasi & tooling ✅
 
-- [x] Nama file di `components/` tetap PascalCase (`InputNumber.tsx`, `ThemeProvider.tsx`) — sempat di-rename ke kebab-case, dibalikin
+- [x] Nama file di `components/` tetap PascalCase (`InputNumber.tsx`, `ThemeProvider.tsx`), hooks camelCase (`useMounted.ts`) — sempat di-rename ke kebab-case, dibalikin
 - [x] Pindah `app/providers.tsx` → `components/providers/index.tsx` + `ThemeProvider.tsx` (port `ThemeHotkey` tombol `d`)
 - [x] Bikin `lib/utils.ts` (re-export / wrap `cn`) biar import path sama
 - [x] Prettier: tambah `prettier-plugin-tailwindcss`, `tailwindStylesheet: "app/globals.css"`, `tailwindFunctions: ["cn", "tv"]`; tambah `.prettierignore`; format script → `"**/*.{ts,tsx}"`
@@ -100,7 +100,7 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 
 ## Phase 7 — App shell & demo
 
-- [ ] `components/AppSidebar.tsx` — HeroUI v3 **gak punya Sidebar**, bikin custom: collapsible ke icon di desktop, `Drawer` di mobile, port `hooks/use-mobile.ts`
+- [ ] `components/AppSidebar.tsx` — HeroUI v3 **gak punya Sidebar**, bikin custom: collapsible ke icon di desktop, `Drawer` di mobile, port `hooks/useMobile.ts`
 - [ ] `app/layout.tsx` — font Inter + Geist Mono, sticky header + trigger, sama seperti shadcn
 - [ ] `app/page.tsx` + `page-client.tsx` — demo semua komponen dengan urutan & contoh yang sama kayak shadcn (gabung isi `app/docs/page.tsx`, lalu hapus)
 
