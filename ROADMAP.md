@@ -38,6 +38,8 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 - [x] Bikin `lib/utils.ts` (re-export / wrap `cn`) biar import path sama
 - [x] Prettier: tambah `prettier-plugin-tailwindcss`, `tailwindStylesheet: "app/globals.css"`, `tailwindFunctions: ["cn", "tv"]`; tambah `.prettierignore`; format script → `"**/*.{ts,tsx}"`
 - [x] ESLint: samakan rule (`sort-imports`/`import/order` off); ganti `eslint-plugin-prettier` → `eslint-config-prettier`
+- [x] Complexity limit (dari `telescope/boilerplate-nextjs`): `complexity` ≤ 15 + `sonarjs/cognitive-complexity` ≤ 15 sebagai error, aturan fix di `CLAUDE.md`
+- [x] Fix urutan plugin Prettier: `prettier-plugin-tailwindcss` harus terakhir, kalau nggak class gak ke-sort
 - [x] Scripts: tambah `typecheck`, `NODE_OPTIONS` memory di `dev`
 - [x] `package.json` metadata (name, version, license MIT, `type: module`) + `LICENSE.md`
 - [x] Bersihin template CNA (`public/*.svg`, page default), tambah `.gitkeep` di folder kosong
@@ -99,7 +101,7 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 
 ## Phase 8 — Docs & distribusi
 
-- [ ] README dengan struktur yang sama: Stack, Getting Started, Scripts, UI Components, Component Usage, Formatting, Linting, Theme
+- [ ] README dengan struktur yang sama: Stack, Getting Started, Scripts, UI Components, Component Usage, Formatting, Linting (termasuk complexity limit), Theme
 - [ ] (Opsional) `registry.json` + build `public/r/*.json` supaya bisa `npx shadcn add <url>` — `registry:ui` bisa ngirim file apa aja, dependencies diisi `@heroui/react`/`@heroui/styles`
 
 ## Urutan kerja yang disarankan

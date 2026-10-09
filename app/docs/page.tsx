@@ -53,7 +53,7 @@ function DocsPage() {
         <Spinner />
       </div>
 
-      <div className="max-w-2xl flex flex-col gap-5">
+      <div className="flex max-w-2xl flex-col gap-5">
         <InputText
           isRequired
           label="Name"

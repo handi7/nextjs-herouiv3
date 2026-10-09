@@ -56,37 +56,24 @@ function InputText(props: InputTextProps) {
     <TextField
       isInvalid={isInvalid}
       isDisabled={isDisabled}
-      className={cn("w-full flex flex-col gap-1", [
+      className={cn("flex w-full flex-col gap-1", [
         { "sm:flex-row sm:gap-4": labelPlacement === "left" },
         classNames?.base,
         className,
       ])}
     >
-      {label && (
-        <div
-          className={cn("flex flex-col gap-1", [
-            { "sm:w-37.5 sm:flex-none sm:mt-2": labelPlacement === "left" },
-            classNames?.labelWrapper,
-          ])}
-        >
-          <Label
-            isRequired={isRequired}
-            isDisabled={isDisabled}
-            isInvalid={isInvalid}
-            className={cn("", [classNames?.label])}
-          >
-            {label}
-          </Label>
+      <LabelBlock
+        label={label}
+        labelPlacement={labelPlacement}
+        description={description}
+        descriptionPlacement={descriptionPlacement}
+        isRequired={isRequired}
+        isDisabled={isDisabled}
+        isInvalid={isInvalid}
+        classNames={classNames}
+      />
 
-          {description && descriptionPlacement === "top" && (
-            <Description isDisabled={isDisabled} className={classNames?.description}>
-              {description}
-            </Description>
-          )}
-        </div>
-      )}
-
-      <div className={cn("w-full flex flex-col gap-1", [classNames?.inputWrapper])}>
+      <div className={cn("flex w-full flex-col gap-1", [classNames?.inputWrapper])}>
         <InputGroup className={cn("rounded-lg", [classNames?.inputGroup])}>
           {startContent && <InputGroup.Prefix>{startContent}</InputGroup.Prefix>}
 
@@ -98,7 +85,7 @@ function InputText(props: InputTextProps) {
         {description && descriptionPlacement === "bottom" && (
           <Description
             isDisabled={isDisabled}
-            className={cn("px-1 mt-1", [classNames?.description])}
+            className={cn("mt-1 px-1", [classNames?.description])}
           >
             {description}
           </Description>
@@ -107,6 +94,58 @@ function InputText(props: InputTextProps) {
         <FieldError>{errorMessage}</FieldError>
       </div>
     </TextField>
+  );
+}
+
+interface LabelBlockProps {
+  label?: string;
+  labelPlacement?: InputTextProps["labelPlacement"];
+  description?: string;
+  descriptionPlacement: InputTextProps["descriptionPlacement"];
+  isRequired?: boolean;
+  isDisabled?: boolean;
+  isInvalid?: boolean;
+  classNames?: InputTextProps["classNames"];
+}
+
+function LabelBlock(props: LabelBlockProps) {
+  const {
+    label,
+    labelPlacement,
+    description,
+    descriptionPlacement,
+    isRequired,
+    isDisabled,
+    isInvalid,
+    classNames,
+  } = props;
+
+  if (!label) {
+    return null;
+  }
+
+  return (
+    <div
+      className={cn("flex flex-col gap-1", [
+        { "sm:mt-2 sm:w-37.5 sm:flex-none": labelPlacement === "left" },
+        classNames?.labelWrapper,
+      ])}
+    >
+      <Label
+        isRequired={isRequired}
+        isDisabled={isDisabled}
+        isInvalid={isInvalid}
+        className={cn("", [classNames?.label])}
+      >
+        {label}
+      </Label>
+
+      {description && descriptionPlacement === "top" && (
+        <Description isDisabled={isDisabled} className={classNames?.description}>
+          {description}
+        </Description>
+      )}
+    </div>
   );
 }
 
