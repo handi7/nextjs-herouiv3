@@ -129,7 +129,7 @@ Semua dipakai langsung dari `@heroui/react` (gak ada wrapper, karena gak ada yan
 - [x] `app/page.tsx` — demo dikelompokin per section (`#buttons`, `#feedback`, `#text`, `#placement`, `#selection`, `#toggles`, `#dates`); isi `/docs` digabung lalu `/docs` dihapus
 - [x] Fix hydration mismatch `InputNumber` di HP: `inputMode` sekarang ditentuin dari `minValue` (bukan user agent)
 
-State sidebar (buka/ciut) belum disimpan antar reload.
+- [x] State sidebar desktop (buka/ciut) disimpan di cookie `sidebar_state` dan dibaca root layout → tetap sama setelah reload, tanpa kedip. Konsekuensi: route dirender dinamis (`cookies()` di layout).
 
 ## Phase 8 — Docs & distribusi
 

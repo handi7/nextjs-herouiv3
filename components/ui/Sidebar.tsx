@@ -17,6 +17,7 @@ import {
 
 import { Button } from "@/components/ui/Button";
 import useMobile from "@/hooks/useMobile";
+import { SIDEBAR_COOKIE_MAX_AGE, SIDEBAR_COOKIE_NAME } from "@/lib/sidebar";
 import { cn } from "@/lib/utils";
 
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
@@ -45,6 +46,7 @@ function useSidebar() {
 }
 
 interface SidebarProviderProps extends PropsWithChildren {
+  /** Initial desktop state. Pass the `sidebar_state` cookie from the layout to keep it on reload. */
   defaultOpen?: boolean;
 }
 
@@ -57,10 +59,13 @@ function SidebarProvider({ children, defaultOpen = true }: SidebarProviderProps)
   const toggle = useCallback(() => {
     if (isMobile) {
       setMobileOpen((open) => !open);
-    } else {
-      setOpen((open) => !open);
+      return;
     }
-  }, [isMobile]);
+
+    // Remembered across reloads; the root layout reads it to render the same state on the server.
+    document.cookie = `${SIDEBAR_COOKIE_NAME}=${!isOpen}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}; samesite=lax`;
+    setOpen(!isOpen);
+  }, [isMobile, isOpen]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
