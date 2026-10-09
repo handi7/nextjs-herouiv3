@@ -12,21 +12,23 @@ interface ButtonProps extends Omit<HeroButtonProps, "children" | "className"> {
   endContent?: ReactNode;
 }
 
-function Button({
-  variant = "primary",
-  size = "md",
-  isDisabled,
-  isLoading = false,
-  loadingText,
-  startContent,
-  endContent,
-  className,
-  children,
-  ...props
-}: ButtonProps) {
+function Button(props: ButtonProps) {
+  const {
+    variant = "primary",
+    size = "md",
+    isDisabled,
+    isLoading = false,
+    loadingText,
+    startContent,
+    endContent,
+    className,
+    children,
+    ...rest
+  } = props;
+
   return (
     <HeroButton
-      {...props}
+      {...rest}
       variant={variant}
       size={size}
       isDisabled={isDisabled || isLoading}

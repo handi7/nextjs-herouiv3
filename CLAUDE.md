@@ -29,3 +29,18 @@ npx eslint app components hooks lib styles --rule '{"complexity":["warn",0],"son
   defaults, or behavior. A HeroUI component used as-is is imported straight from `@heroui/react`
   (`import { Spinner } from "@heroui/react"`), never through a file that only re-exports it.
 - File names: components PascalCase (`InputNumber.tsx`), hooks camelCase (`useMounted.ts`).
+
+## Props destructuring
+
+When destructuring props no longer fits on one line (Prettier breaks it), take `props` and
+destructure in the body; name the remainder `rest`:
+
+```tsx
+function Button(props: ButtonProps) {
+  const { variant = "primary", isLoading = false, className, children, ...rest } = props;
+  // ...
+}
+```
+
+Small components whose destructuring fits on one line keep it in the signature
+(`function Icon({ className, ...props }: IconProps)`).

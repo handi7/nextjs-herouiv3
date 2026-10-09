@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 
 import type { Metadata } from "next";
+import type { PropsWithChildren } from "react";
 
 import "./globals.css";
 
@@ -21,11 +22,7 @@ export const metadata: Metadata = {
   description: "Next.js boilerplate with HeroUI v3, Tailwind CSS, and TypeScript.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
   return (
     <html
       lang="en"
