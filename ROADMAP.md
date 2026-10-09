@@ -60,14 +60,16 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 - [x] `Icon` — `DynamicIcon` dari `lucide-react/dynamic`, default size 18. **Cuma buat nama icon dari data (DB)**; icon statis import langsung dari `lucide-react` (dijaga ESLint `no-restricted-syntax`, beda dari shadcn yang pakai `<Icon>` di mana-mana)
 - [x] `Spinner`, `Label`, `Separator`, `Skeleton` — **gak dibikin file**, import langsung dari `@heroui/react` (file yang cuma nerusin export gak dibikin)
 
-## Phase 2 — Text input
+## Phase 2 — Text input ✅
 
-| shadcn                 | HeroUI basis                             | Catatan                                                   |
-| ---------------------- | ---------------------------------------- | --------------------------------------------------------- |
-| `InputText`            | `TextField` + `InputGroup`               | refactor ke FieldShell                                    |
-| `InputTextarea`        | `TextField` + `TextArea`                 | baru                                                      |
-| `InputNumber`          | `NumberField`                            | tambah `hideStepper`, `startContent`                      |
-| `InputFormattedNumber` | `NumberField` + `formatOptions`/`locale` | HeroUI udah handle format, lebih simpel dari versi shadcn |
+| shadcn                 | HeroUI basis                                     | Catatan                                                                                                                                        |
+| ---------------------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `InputText`            | `TextField` + `InputGroup`                       | ✅ pakai FieldShell                                                                                                                            |
+| `InputTextarea`        | `TextField` + `TextArea`                         | ✅                                                                                                                                             |
+| `InputNumber`          | `NumberField`                                    | ✅ `hideStepper`, `startContent`, `endContent`, `placeholder`; kolom grid group di-set manual karena HeroUI cuma ngitung kolom stepper         |
+| `InputFormattedNumber` | `InputNumber` + `I18nProvider` + `formatOptions` | ✅ `locale` (default `id-ID` → `1.250.000,5`), `maximumFractionDigits` (2), `allowNegative`; format & parsing dari Intl, gak ada parser manual |
+
+Beda API dari shadcn: value-nya tetap pakai NumberField (`value: number`, kosong = `NaN`, `onChange`), bukan `number | null` + `onValueChange`.
 
 ## Phase 3 — Selection
 

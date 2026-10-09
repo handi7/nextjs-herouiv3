@@ -2,8 +2,10 @@ import { Separator, Skeleton, Spinner } from "@heroui/react";
 import { ArrowRightIcon, PlusIcon, UserIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/Button";
+import InputFormattedNumber from "@/components/ui/InputFormattedNumber";
 import InputNumber from "@/components/ui/InputNumber";
 import InputText from "@/components/ui/InputText";
+import InputTextarea from "@/components/ui/InputTextarea";
 
 export default function Page() {
   return (
@@ -47,7 +49,25 @@ export default function Page() {
           errorMessage="Email is already taken."
         />
 
-        <InputNumber isRequired label="Amount" description="Minimum 0." minValue={0} />
+        <InputTextarea
+          isRequired
+          label="Description"
+          placeholder="Write a description..."
+          description="Keep it short and clear."
+        />
+
+        <InputNumber isRequired label="Quantity" description="Minimum 0." minValue={0} />
+
+        <InputNumber
+          isRequired
+          hideStepper
+          label="Amount"
+          placeholder="0"
+          minValue={0}
+          startContent="Rp"
+        />
+
+        <InputFormattedNumber label="Formatted amount" startContent="Rp" defaultValue={1250000.5} />
       </div>
     </div>
   );

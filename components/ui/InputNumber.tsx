@@ -1,6 +1,8 @@
 "use client";
 
 import { NumberField, NumberFieldProps } from "@heroui/react";
+import { inputGroupVariants } from "@heroui/styles";
+import { ReactNode } from "react";
 
 import {
   type FieldClassNames,
@@ -11,14 +13,20 @@ import {
 } from "@/components/ui/Field";
 import { cn } from "@/lib/utils";
 
+type InputNumberClassNames = FieldClassNames & {
+  inputGroup?: string;
+  input?: string;
+  incrementButton?: string;
+  decrementButton?: string;
+};
+
 export interface InputNumberProps extends Omit<NumberFieldProps, "className">, FieldProps {
   className?: string;
-  classNames?: FieldClassNames & {
-    inputGroup?: string;
-    input?: string;
-    incrementButton?: string;
-    decrementButton?: string;
-  };
+  classNames?: InputNumberClassNames;
+  startContent?: ReactNode;
+  endContent?: ReactNode;
+  hideStepper?: boolean;
+  placeholder?: string;
 }
 
 function InputNumber(props: InputNumberProps) {
@@ -33,6 +41,10 @@ function InputNumber(props: InputNumberProps) {
     errorMessage,
     className,
     classNames,
+    startContent,
+    endContent,
+    hideStepper,
+    placeholder,
     ...rest
   } = props;
 
@@ -57,13 +69,57 @@ function InputNumber(props: InputNumberProps) {
         isInvalid={invalid}
         classNames={classNames}
       >
-        <NumberField.Group className={cn("rounded-lg", [classNames?.inputGroup])}>
-          <NumberField.DecrementButton className={classNames?.decrementButton} />
-          <NumberField.Input className={cn("w-full", [classNames?.input])} />
-          <NumberField.IncrementButton className={classNames?.incrementButton} />
-        </NumberField.Group>
+        <NumberGroup
+          startContent={startContent}
+          endContent={endContent}
+          hideStepper={hideStepper}
+          placeholder={placeholder}
+          classNames={classNames}
+        />
       </FieldShell>
     </NumberField>
+  );
+}
+
+// InputGroup.Prefix/Suffix read their classes from InputGroup's context, which a NumberField
+// group doesn't provide, so the slot classes are applied to plain elements instead.
+const addonSlots = inputGroupVariants();
+
+type NumberGroupProps = Pick<
+  InputNumberProps,
+  "startContent" | "endContent" | "hideStepper" | "placeholder" | "classNames"
+>;
+
+/**
+ * HeroUI sizes the group's grid columns from the stepper buttons only, so the columns are set
+ * here to make room for start/end content.
+ */
+function groupColumns({ startContent, endContent, hideStepper }: NumberGroupProps) {
+  const stepper = hideStepper ? [] : ["40px"];
+  const start = startContent ? ["auto"] : [];
+  const end = endContent ? ["auto"] : [];
+
+  return [...stepper, ...start, "1fr", ...end, ...stepper].join(" ");
+}
+
+function NumberGroup(props: NumberGroupProps) {
+  const { startContent, endContent, hideStepper, placeholder, classNames } = props;
+
+  return (
+    <NumberField.Group
+      className={cn("rounded-lg", [classNames?.inputGroup])}
+      style={{ gridTemplateColumns: groupColumns(props) }}
+    >
+      {!hideStepper && <NumberField.DecrementButton className={classNames?.decrementButton} />}
+
+      {startContent && <div className={addonSlots.prefix()}>{startContent}</div>}
+
+      <NumberField.Input placeholder={placeholder} className={cn("w-full", [classNames?.input])} />
+
+      {endContent && <div className={addonSlots.suffix()}>{endContent}</div>}
+
+      {!hideStepper && <NumberField.IncrementButton className={classNames?.incrementButton} />}
+    </NumberField.Group>
   );
 }
 
