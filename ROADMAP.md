@@ -133,7 +133,7 @@ Semua dipakai langsung dari `@heroui/react` (gak ada wrapper, karena gak ada yan
 
 ## Phase 8 — Docs & distribusi
 
-- [ ] README dengan struktur yang sama: Stack, Getting Started, Scripts, UI Components, Component Usage, Formatting, Linting (termasuk complexity limit), Theme
+- [x] README dengan struktur yang sama: Stack, Getting Started, Scripts, Project Structure (baru), UI Components, Component Usage, Formatting, Linting (termasuk complexity limit), Theme
 - [ ] (Opsional) `registry.json` + build `public/r/*.json` supaya bisa `npx shadcn add <url>` — `registry:ui` bisa ngirim file apa aja, dependencies diisi `@heroui/react`/`@heroui/styles`
 
 ## Urutan kerja yang disarankan
