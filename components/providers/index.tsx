@@ -2,7 +2,7 @@
 
 import { PropsWithChildren } from "react";
 
-import { ThemeProvider } from "./theme-provider";
+import { ThemeProvider } from "./ThemeProvider";
 
 function Providers({ children }: PropsWithChildren) {
   return <ThemeProvider>{children}</ThemeProvider>;

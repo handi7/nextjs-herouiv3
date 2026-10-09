@@ -5,10 +5,10 @@ import Link from "next/link";
 import { Button as HeroButton, Modal, Spinner } from "@heroui/react";
 import { useTheme } from "next-themes";
 
-import { Button } from "@/components/ui/button";
-import InputNumber from "@/components/ui/input-number";
-import InputText from "@/components/ui/input-text";
-import Switch from "@/components/ui/switch";
+import { Button } from "@/components/ui/Button";
+import InputNumber from "@/components/ui/InputNumber";
+import InputText from "@/components/ui/InputText";
+import Switch from "@/components/ui/Switch";
 import { buttonStyle } from "@/styles";
 
 function DocsPage() {

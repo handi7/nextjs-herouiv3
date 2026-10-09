@@ -8,7 +8,7 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 | Aspek          | nextjs-shadcn                                                            | nextjs-herouiv3                                               |
 | -------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------- |
 | Next / TS      | Next 15.5.19, TS 5                                                       | Next 16.2.2, TS 6                                             |
-| Naming file    | kebab-case (`input-text.tsx`)                                            | PascalCase (`InputText.tsx`)                                  |
+| Naming file    | kebab-case (`input-text.tsx`)                                            | PascalCase (`InputText.tsx`) — **tetap**                      |
 | Providers      | `components/providers/{index,theme-provider}.tsx` + hotkey `d` + Toaster | `app/providers.tsx` (ThemeProvider aja)                       |
 | Utils          | `lib/utils.ts` (`cn`)                                                    | pakai `cn` dari `@heroui/react` langsung                      |
 | Palette        | cyan primary, navy dark (OKLCH)                                          | teal accent, palette sendiri — **tetap, gak diubah**          |
@@ -27,14 +27,15 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
    `label`, `description`, `errorMessage`, `classNames`, `startContent`/`endContent`, `options`. `errorMessage` ada → otomatis `isInvalid`.
 3. **Superset**: `labelPlacement="left"` dan `descriptionPlacement` dipertahankan.
 4. **Tanggal**: wrapper terima & emit `Date`, konversi ke `CalendarDate` di dalam.
-5. **Export style** ikut shadcn: `export default` untuk Input*, named export untuk primitive.
-6. **Palette** herouiv3 gak diubah. Prinsip umum: yang udah ada dipertahankan, cuma nambahin yang belum ada.
-7. **ESLint**: `eslint-config-prettier` aja (prettier gak jalan sebagai lint rule), sama seperti shadcn.
+5. **Nama file komponen** PascalCase (`components/ui/InputNumber.tsx`); path import beda dari shadcn, tapi nama komponen & API sama.
+6. **Export style** ikut shadcn: `export default` untuk Input*, named export untuk primitive.
+7. **Palette** herouiv3 gak diubah. Prinsip umum: yang udah ada dipertahankan, cuma nambahin yang belum ada.
+8. **ESLint**: `eslint-config-prettier` aja (prettier gak jalan sebagai lint rule), sama seperti shadcn.
 
 ## Phase 0 — Fondasi & tooling ✅
 
-- [x] Rename ke kebab-case: `components/ui/InputText.tsx` → `input-text.tsx`, dst; `hooks/useMounted.ts` → `use-mounted.ts`
-- [x] Pindah `app/providers.tsx` → `components/providers/index.tsx` + `theme-provider.tsx` (port `ThemeHotkey` tombol `d`)
+- [x] Nama file di `components/` tetap PascalCase (`InputNumber.tsx`, `ThemeProvider.tsx`) — sempat di-rename ke kebab-case, dibalikin
+- [x] Pindah `app/providers.tsx` → `components/providers/index.tsx` + `ThemeProvider.tsx` (port `ThemeHotkey` tombol `d`)
 - [x] Bikin `lib/utils.ts` (re-export / wrap `cn`) biar import path sama
 - [x] Prettier: tambah `prettier-plugin-tailwindcss`, `tailwindStylesheet: "app/globals.css"`, `tailwindFunctions: ["cn", "tv"]`; tambah `.prettierignore`; format script → `"**/*.{ts,tsx}"`
 - [x] ESLint: samakan rule (`sort-imports`/`import/order` off); ganti `eslint-plugin-prettier` → `eslint-config-prettier`
@@ -49,7 +50,7 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 
 ## Phase 1 — Primitive & field shell ✅
 
-- [x] **FieldShell** di `components/ui/field.tsx`: label + description + error + `labelPlacement`, plus helper
+- [x] **FieldShell** di `components/ui/Field.tsx`: label + description + error + `labelPlacement`, plus helper
       `fieldRootClassName` dan `resolveInvalid` (`errorMessage` → `isInvalid`). `InputText` & `InputNumber` udah pakai ini.
       Description pakai slot HeroUI (`aria-describedby` otomatis) dan tetap tampil saat invalid (HeroUI default-nya nyembunyiin).
 - [x] `Button` — `variant` (nama variant HeroUI: `primary`, `secondary`, `tertiary`, `outline`, `ghost`, `danger`, `danger-soft`),
@@ -99,7 +100,7 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 
 ## Phase 7 — App shell & demo
 
-- [ ] `components/app-sidebar.tsx` — HeroUI v3 **gak punya Sidebar**, bikin custom: collapsible ke icon di desktop, `Drawer` di mobile, port `hooks/use-mobile.ts`
+- [ ] `components/AppSidebar.tsx` — HeroUI v3 **gak punya Sidebar**, bikin custom: collapsible ke icon di desktop, `Drawer` di mobile, port `hooks/use-mobile.ts`
 - [ ] `app/layout.tsx` — font Inter + Geist Mono, sticky header + trigger, sama seperti shadcn
 - [ ] `app/page.tsx` + `page-client.tsx` — demo semua komponen dengan urutan & contoh yang sama kayak shadcn (gabung isi `app/docs/page.tsx`, lalu hapus)
 

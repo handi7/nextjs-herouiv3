@@ -9,7 +9,7 @@ import {
   FieldShell,
   fieldRootClassName,
   resolveInvalid,
-} from "@/components/ui/field";
+} from "@/components/ui/Field";
 import { cn } from "@/lib/utils";
 
 export interface InputTextProps extends Omit<InputProps, "className">, FieldProps {

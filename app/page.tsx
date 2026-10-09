@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
-import Icon from "@/components/ui/icon";
-import InputNumber from "@/components/ui/input-number";
-import InputText from "@/components/ui/input-text";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Spinner } from "@/components/ui/spinner";
+import { Button } from "@/components/ui/Button";
+import Icon from "@/components/ui/Icon";
+import InputNumber from "@/components/ui/InputNumber";
+import InputText from "@/components/ui/InputText";
+import { Separator } from "@/components/ui/Separator";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { Spinner } from "@/components/ui/Spinner";
 
 export default function Page() {
   return (

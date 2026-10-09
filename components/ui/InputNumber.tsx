@@ -8,7 +8,7 @@ import {
   FieldShell,
   fieldRootClassName,
   resolveInvalid,
-} from "@/components/ui/field";
+} from "@/components/ui/Field";
 import { cn } from "@/lib/utils";
 
 export interface InputNumberProps extends Omit<NumberFieldProps, "className">, FieldProps {
