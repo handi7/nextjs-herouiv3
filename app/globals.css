@@ -35,7 +35,7 @@
 
     /* Radius */
     --radius: 0.5rem;
-    --field-radius: calc(var(--radius) * 1.5);
+    --field-radius: var(--radius); /* same radius as buttons, overlays and tags */
 
     /* == Light Theme Variables == */
 
@@ -168,5 +168,27 @@
     --surface-shadow: 0 0 0 0 transparent inset; /* No shadow on dark mode */
     --overlay-shadow: 0 0 1px 0 rgba(255, 255, 255, 0.3) inset;
     --field-shadow: 0 0 0 0 transparent inset; /* Transparent shadow to allow ring utilities to work */
+  }
+}
+
+/*
+ * One radius for every control and surface: fields (via --field-radius), buttons, overlays,
+ * list items and tags. HeroUI's defaults differ per component (pill buttons, 24px popovers, ...).
+ * Small toggles (checkbox, radio, switch) keep their own shapes.
+ */
+@layer components {
+  .button,
+  .tag,
+  .list-box-item,
+  .popover,
+  .tooltip,
+  .select__popover,
+  .combo-box__popover,
+  .autocomplete__popover,
+  .dropdown__popover,
+  .date-picker__popover,
+  .date-range-picker__popover,
+  .modal__dialog:not(.modal__dialog--full) {
+    border-radius: var(--radius);
   }
 }

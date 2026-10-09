@@ -9,6 +9,6 @@ export const buttonStyle = (props?: ButtonStyleProps) => {
     variant: "primary",
     size: "md",
     ...rest,
-    className: cn("rounded-lg", className, cls),
+    className: cn(className, cls),
   });
 };

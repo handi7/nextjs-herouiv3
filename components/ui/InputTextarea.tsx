@@ -53,7 +53,7 @@ function InputTextarea(props: InputTextareaProps) {
         isInvalid={invalid}
         classNames={classNames}
       >
-        <TextArea {...rest} className={cn("w-full rounded-lg", [classNames?.textarea])} />
+        <TextArea {...rest} className={cn("w-full", [classNames?.textarea])} />
       </FieldShell>
     </TextField>
   );

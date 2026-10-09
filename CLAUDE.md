@@ -29,6 +29,8 @@ npx eslint app components hooks lib styles --rule '{"complexity":["warn",0],"son
   defaults, or behavior. A HeroUI component used as-is is imported straight from `@heroui/react`
   (`import { Spinner } from "@heroui/react"`), never through a file that only re-exports it.
 - File names: components PascalCase (`InputNumber.tsx`), hooks camelCase (`useMounted.ts`).
+- Radius is one value (`--radius`) for fields, buttons, overlays, list items and tags, set in
+  `app/globals.css`. Don't add `rounded-*` to those controls in components; change the token instead.
 
 ## Props destructuring
 

@@ -59,7 +59,7 @@ function InputText(props: InputTextProps) {
         isInvalid={invalid}
         classNames={classNames}
       >
-        <InputGroup className={cn("rounded-lg", [classNames?.inputGroup])}>
+        <InputGroup className={classNames?.inputGroup}>
           {startContent && <InputGroup.Prefix>{startContent}</InputGroup.Prefix>}
 
           <InputGroup.Input {...rest} className={cn("w-full", [classNames?.input])} />

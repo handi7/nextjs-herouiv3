@@ -46,7 +46,7 @@ export default function Page() {
 
         <div className="flex items-center gap-3">
           <Spinner size="sm" />
-          <Skeleton className="h-4 w-40 rounded-md" />
+          <Skeleton className="h-4 w-40 rounded-lg" />
         </div>
 
         <Separator />

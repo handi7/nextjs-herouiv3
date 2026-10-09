@@ -91,7 +91,7 @@ function InputComboboxMultiple(props: InputComboboxMultipleProps) {
         isInvalid={invalid}
         classNames={classNames}
       >
-        <ComboBox.InputGroup className={cn("rounded-lg", [classNames?.inputGroup])}>
+        <ComboBox.InputGroup className={classNames?.inputGroup}>
           <Input placeholder={placeholder} className={cn("w-full", [classNames?.input])} />
           <ComboBox.Trigger />
         </ComboBox.InputGroup>

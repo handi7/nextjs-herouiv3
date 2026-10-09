@@ -64,7 +64,7 @@ function InputSelect(props: InputSelectProps) {
         isInvalid={invalid}
         classNames={classNames}
       >
-        <Select.Trigger className={cn("w-full rounded-lg", [classNames?.trigger])}>
+        <Select.Trigger className={cn("w-full", [classNames?.trigger])}>
           <Select.Value />
           {showClear && <Select.ClearButton />}
           <Select.Indicator />

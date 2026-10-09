@@ -107,7 +107,7 @@ function NumberGroup(props: NumberGroupProps) {
 
   return (
     <NumberField.Group
-      className={cn("rounded-lg", [classNames?.inputGroup])}
+      className={classNames?.inputGroup}
       style={{ gridTemplateColumns: groupColumns(props) }}
     >
       {!hideStepper && <NumberField.DecrementButton className={classNames?.decrementButton} />}
