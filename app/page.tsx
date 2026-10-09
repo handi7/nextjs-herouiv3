@@ -1,7 +1,10 @@
-import { User } from "lucide-react";
-
-import Button from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import Icon from "@/components/ui/icon";
+import InputNumber from "@/components/ui/input-number";
 import InputText from "@/components/ui/input-text";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function Page() {
   return (
@@ -11,15 +14,41 @@ export default function Page() {
           <h1 className="font-medium">Project ready!</h1>
           <p>You may now add components and start building.</p>
           <div className="mt-2 flex flex-wrap gap-2">
-            <Button>Create</Button>
-            <Button isLoading>Save</Button>
+            <Button startContent={<Icon name="plus" />}>Create</Button>
+            <Button endContent={<Icon name="arrow-right" />} variant="outline">
+              Continue
+            </Button>
+            <Button isLoading loadingText="Saving...">
+              Save
+            </Button>
           </div>
         </div>
         <div className="font-mono text-xs text-muted">
           (Press <kbd>d</kbd> to toggle dark mode)
         </div>
 
-        <InputText label="Name" placeholder="Your name" startContent={<User size={18} />} />
+        <div className="flex items-center gap-3">
+          <Spinner size="sm" />
+          <Skeleton className="h-4 w-40 rounded-md" />
+        </div>
+
+        <Separator />
+
+        <InputText
+          isRequired
+          label="Username"
+          placeholder="Username"
+          startContent={<Icon name="user" />}
+        />
+
+        <InputText
+          label="Email"
+          placeholder="you@example.com"
+          description="We'll never share your email."
+          errorMessage="Email is already taken."
+        />
+
+        <InputNumber isRequired label="Amount" description="Minimum 0." minValue={0} />
       </div>
     </div>
   );

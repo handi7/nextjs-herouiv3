@@ -1,164 +1,69 @@
 "use client";
 
-import {
-  FieldError,
-  Label,
-  NumberField,
-  NumberFieldProps,
-  cn,
-  descriptionVariants,
-} from "@heroui/react";
-import { PropsWithChildren } from "react";
+import { NumberField, NumberFieldProps } from "@heroui/react";
 
-export interface InputNumberProps extends NumberFieldProps {
-  isRequired?: boolean;
-  isDisabled?: boolean;
-  label?: string;
-  description?: string;
+import {
+  type FieldClassNames,
+  type FieldProps,
+  FieldShell,
+  fieldRootClassName,
+  resolveInvalid,
+} from "@/components/ui/field";
+import { cn } from "@/lib/utils";
+
+export interface InputNumberProps extends Omit<NumberFieldProps, "className">, FieldProps {
   className?: string;
-  classNames?: {
-    base?: string;
-    label?: string;
-    labelWrapper?: string;
-    inputWrapper?: string;
+  classNames?: FieldClassNames & {
     inputGroup?: string;
     input?: string;
-    description?: string;
-    errorMessage?: string;
     incrementButton?: string;
     decrementButton?: string;
   };
-  labelPlacement?: "top" | "left";
-  descriptionPlacement?: "top" | "bottom";
-  isInvalid?: boolean;
-  errorMessage?: string;
 }
 
 function InputNumber(props: InputNumberProps) {
   const {
     isRequired,
     isDisabled,
+    isInvalid,
     label,
+    labelPlacement,
     description,
+    descriptionPlacement,
+    errorMessage,
     className,
     classNames,
-    labelPlacement,
-    descriptionPlacement = "bottom",
-    isInvalid,
-    errorMessage,
     ...rest
   } = props;
 
+  const invalid = resolveInvalid(isInvalid, errorMessage);
+
   return (
     <NumberField
-      isInvalid={isInvalid}
-      isDisabled={isDisabled}
       {...rest}
-      className={cn("flex w-full flex-col gap-1", [
-        { "sm:flex-row sm:gap-4": labelPlacement === "left" },
-        classNames?.base,
-        className,
-      ])}
+      isRequired={isRequired}
+      isDisabled={isDisabled}
+      isInvalid={invalid}
+      className={fieldRootClassName(labelPlacement, classNames?.base, className)}
     >
-      <LabelBlock
+      <FieldShell
         label={label}
         labelPlacement={labelPlacement}
         description={description}
         descriptionPlacement={descriptionPlacement}
+        errorMessage={errorMessage}
         isRequired={isRequired}
         isDisabled={isDisabled}
-        isInvalid={isInvalid}
+        isInvalid={invalid}
         classNames={classNames}
-      />
-
-      <div className={cn("flex w-full flex-col gap-1", [classNames?.inputWrapper])}>
+      >
         <NumberField.Group className={cn("rounded-lg", [classNames?.inputGroup])}>
           <NumberField.DecrementButton className={classNames?.decrementButton} />
           <NumberField.Input className={cn("w-full", [classNames?.input])} />
           <NumberField.IncrementButton className={classNames?.incrementButton} />
         </NumberField.Group>
-
-        {description && descriptionPlacement === "bottom" && (
-          <Description
-            isDisabled={isDisabled}
-            className={cn("mt-1 px-1", [classNames?.description])}
-          >
-            {description}
-          </Description>
-        )}
-
-        <FieldError>{errorMessage}</FieldError>
-      </div>
+      </FieldShell>
     </NumberField>
-  );
-}
-
-interface LabelBlockProps {
-  label?: string;
-  labelPlacement?: InputNumberProps["labelPlacement"];
-  description?: string;
-  descriptionPlacement: InputNumberProps["descriptionPlacement"];
-  isRequired?: boolean;
-  isDisabled?: boolean;
-  isInvalid?: boolean;
-  classNames?: InputNumberProps["classNames"];
-}
-
-function LabelBlock(props: LabelBlockProps) {
-  const {
-    label,
-    labelPlacement,
-    description,
-    descriptionPlacement,
-    isRequired,
-    isDisabled,
-    isInvalid,
-    classNames,
-  } = props;
-
-  if (!label) {
-    return null;
-  }
-
-  return (
-    <div
-      className={cn("flex flex-col gap-1", [
-        { "sm:mt-2 sm:w-[150px] sm:flex-none": labelPlacement === "left" },
-        classNames?.labelWrapper,
-      ])}
-    >
-      <Label
-        isRequired={isRequired}
-        isDisabled={isDisabled}
-        isInvalid={isInvalid}
-        className={cn("", [classNames?.label])}
-      >
-        {label}
-      </Label>
-
-      {description && descriptionPlacement === "top" && (
-        <Description isDisabled={isDisabled} className={classNames?.description}>
-          {description}
-        </Description>
-      )}
-    </div>
-  );
-}
-
-interface DescriptionProps extends PropsWithChildren {
-  isDisabled?: boolean;
-  className?: string;
-}
-
-function Description({ children, isDisabled, className }: DescriptionProps) {
-  return (
-    <span
-      className={descriptionVariants({
-        className: cn({ "opacity-50": isDisabled }, className),
-      })}
-    >
-      {children}
-    </span>
   );
 }
 

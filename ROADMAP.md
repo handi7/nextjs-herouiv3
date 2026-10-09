@@ -47,12 +47,16 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 
 **Done when:** `lint`, `typecheck`, `build` hijau; struktur folder identik dengan shadcn.
 
-## Phase 1 — Primitive & field shell
+## Phase 1 — Primitive & field shell ✅
 
-- [ ] **FieldShell** internal: ekstrak blok label + description + error + `labelPlacement` yang sekarang diduplikasi di InputText & InputNumber. Semua Input* pakai ini.
-- [ ] `Button` — samakan API: `variant`, `size`, `isLoading`, `loadingText`, `startContent`, `endContent`; spinner gantiin `startContent` saat loading. Export `{ Button, buttonVariants }`.
-- [ ] `Icon` — `DynamicIcon` dari `lucide-react/dynamic`, default size 18
-- [ ] `Spinner`, `Label`, `Separator`, `Skeleton` — re-export/thin wrapper HeroUI
+- [x] **FieldShell** di `components/ui/field.tsx`: label + description + error + `labelPlacement`, plus helper
+      `fieldRootClassName` dan `resolveInvalid` (`errorMessage` → `isInvalid`). `InputText` & `InputNumber` udah pakai ini.
+      Description pakai slot HeroUI (`aria-describedby` otomatis) dan tetap tampil saat invalid (HeroUI default-nya nyembunyiin).
+- [x] `Button` — `variant` (nama variant HeroUI: `primary`, `secondary`, `tertiary`, `outline`, `ghost`, `danger`, `danger-soft`),
+      `size`, `isLoading`, `loadingText`, `startContent`, `endContent`; spinner gantiin `startContent` saat loading.
+      Export `{ Button, buttonVariants }` (`buttonVariants` = `buttonStyle` dari `styles/`).
+- [x] `Icon` — `DynamicIcon` dari `lucide-react/dynamic`, default size 18
+- [x] `Spinner`, `Label`, `Separator`, `Skeleton` — re-export HeroUI biar path import sama dengan shadcn
 
 ## Phase 2 — Text input
 
