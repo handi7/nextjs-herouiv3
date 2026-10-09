@@ -1,10 +1,9 @@
 "use client";
 
 import { Label, Switch, SwitchProps } from "@heroui/react";
-import { fieldErrorVariants } from "@heroui/styles";
 import { useId } from "react";
 
-import { FieldDescription, resolveInvalid } from "@/components/ui/Field";
+import { FieldDescription, PlainFieldError, resolveInvalid } from "@/components/ui/Field";
 import { cn } from "@/lib/utils";
 
 export interface InputSwitchProps extends Omit<SwitchProps, "children" | "className"> {
@@ -64,15 +63,9 @@ function InputSwitch(props: InputSwitchProps) {
 
       {/* React Aria's Switch has no validation context, so FieldError would never render. */}
       {showError && (
-        <span
-          id={errorId}
-          role="alert"
-          data-slot="field-error"
-          data-visible
-          className={fieldErrorVariants({ className: classNames?.errorMessage })}
-        >
+        <PlainFieldError id={errorId} className={classNames?.errorMessage}>
           {errorMessage}
-        </span>
+        </PlainFieldError>
       )}
     </Switch>
   );

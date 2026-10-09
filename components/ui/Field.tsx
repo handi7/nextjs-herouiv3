@@ -1,6 +1,7 @@
 "use client";
 
 import { Description, FieldError, Label } from "@heroui/react";
+import { descriptionVariants, fieldErrorVariants } from "@heroui/styles";
 import { PropsWithChildren } from "react";
 
 import { cn } from "@/lib/utils";
@@ -135,9 +136,46 @@ function FieldDescription({ children, isDisabled, className }: FieldDescriptionP
   );
 }
 
+interface PlainFieldTextProps extends PropsWithChildren {
+  id?: string;
+  isDisabled?: boolean;
+  className?: string;
+}
+
+/*
+ * For controls whose React Aria component has no description/error slots (Slider, Switch), where
+ * HeroUI's Description and FieldError render nothing. Link them to the control with `id`.
+ */
+function PlainFieldDescription({ id, children, isDisabled, className }: PlainFieldTextProps) {
+  return (
+    <span
+      id={id}
+      className={descriptionVariants({ className: cn({ "opacity-50": isDisabled }, className) })}
+    >
+      {children}
+    </span>
+  );
+}
+
+function PlainFieldError({ id, children, className }: PlainFieldTextProps) {
+  return (
+    <span
+      id={id}
+      role="alert"
+      data-slot="field-error"
+      data-visible
+      className={fieldErrorVariants({ className })}
+    >
+      {children}
+    </span>
+  );
+}
+
 export {
   FieldShell,
   FieldDescription,
+  PlainFieldDescription,
+  PlainFieldError,
   fieldRootClassName,
   resolveInvalid,
   type FieldClassNames,

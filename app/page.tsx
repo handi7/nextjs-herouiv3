@@ -1,6 +1,8 @@
 import { Separator, Skeleton, Spinner } from "@heroui/react";
 import { ArrowRightIcon, PlusIcon, UserIcon } from "lucide-react";
 
+import PageClient from "./page-client";
+
 import ThemeSwitch from "@/components/ThemeSwitch";
 import { Button } from "@/components/ui/Button";
 import InputCheckbox from "@/components/ui/InputCheckbox";
@@ -11,6 +13,7 @@ import InputFormattedNumber from "@/components/ui/InputFormattedNumber";
 import InputNumber from "@/components/ui/InputNumber";
 import InputRadioGroup from "@/components/ui/InputRadioGroup";
 import InputSelect from "@/components/ui/InputSelect";
+import InputSlider from "@/components/ui/InputSlider";
 import InputSwitch from "@/components/ui/InputSwitch";
 import InputText from "@/components/ui/InputText";
 import InputTextarea from "@/components/ui/InputTextarea";
@@ -89,6 +92,19 @@ export default function Page() {
         />
 
         <InputFormattedNumber label="Formatted amount" startContent="Rp" defaultValue={1250000.5} />
+
+        <InputSlider
+          isRequired
+          showValue
+          label="Progress"
+          description="Adjust the progress value."
+          defaultValue={45}
+          step={5}
+        />
+
+        <InputSlider showValue label="Budget range" defaultValue={[20, 80]} step={5} />
+
+        <PageClient />
 
         <InputSelect showClear label="Status" placeholder="Select status" options={statusOptions} />
 

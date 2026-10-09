@@ -93,11 +93,16 @@ Beda API dari shadcn: value-nya tetap pakai NumberField (`value: number`, kosong
 - [x] Tipe option pindah ke `lib/options.ts` (dipakai select, combobox, checkbox group, radio group)
 - [x] Override di `globals.css`: error checkbox/switch/radio merah (HeroUI default abu), spacing item grup diatur list sendiri, root radio group horizontal gak jadi flex-row
 
-## Phase 5 — Range & tanggal
+## Phase 5 — Range & tanggal ✅
 
-- [ ] `InputSlider` — `Slider`, support single & range (`defaultValue={[20, 80]}`), `showValue`
-- [ ] `DatePicker` — HeroUI `DatePicker` (+ `Calendar`), adaptor `Date` ↔ `CalendarDate`
-- [ ] `DateRangePicker` — HeroUI `DateRangePicker` (+ `RangeCalendar`)
+- [x] `InputSlider` — `Slider`, single & range (`defaultValue={45}` / `{[20, 80]}`), `showValue`, description & error (dirender manual karena Slider React Aria gak punya slot-nya)
+- [x] `DatePicker` — HeroUI `DatePicker` + `Calendar` (dengan year picker); `value`/`defaultValue`/`onChange`/`minValue`/`maxValue` pakai `Date`
+- [x] `DateRangePicker` — HeroUI `DateRangePicker` + `RangeCalendar`; value `{ start: Date; end: Date } | null`
+- [x] Konversi `Date` ↔ `CalendarDate` di `lib/dates.ts` (tanggal lokal, jam dibuang); `@internationalized/date` jadi dependency langsung
+- [x] `PlainFieldDescription` / `PlainFieldError` di `Field.tsx` buat kontrol tanpa slot description/error (Slider, Switch)
+- [x] `app/page-client.tsx` — demo date picker controlled yang nampilin `Date` hasil `onChange`
+
+Beda dari shadcn: input tanggal berupa segmen yang bisa diketik (`mm / dd / yyyy`, urutan ikut locale), bukan tombol "Pick a date" + `dateFormat`; event-nya `onChange`, bukan `onValueChange`.
 
 ## Phase 6 — Overlay & feedback
 
