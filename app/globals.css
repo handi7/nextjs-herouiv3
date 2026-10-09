@@ -141,7 +141,7 @@
     --default-foreground: var(--snow);
 
     /* Form Fields */
-    --field-background: oklch(0.2103 0.0059 285.89);
+    --field-background: oklch(100% 0 0 / 6%); /* thin white over the background */
     --field-foreground: var(--foreground);
 
     /* Status Colors */

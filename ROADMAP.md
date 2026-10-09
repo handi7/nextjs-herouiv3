@@ -45,7 +45,7 @@ supaya pindah antar boilerplate tinggal ganti import, bukan ganti cara pakai.
 - [x] Scripts: tambah `typecheck`, `NODE_OPTIONS` memory di `dev`
 - [x] `package.json` metadata (name, version, license MIT, `type: module`) + `LICENSE.md`
 - [x] Bersihin template CNA (`public/*.svg`, page default), tambah `.gitkeep` di folder kosong
-- [x] Theme tokens di `globals.css`: **palette herouiv3 dipertahankan** (gak ikut shadcn). Token lain (`*-hover`, `*-soft`, `*-secondary`, ...) diturunkan otomatis oleh `@heroui/styles` via `color-mix`, jadi gak perlu ditambah
+- [x] Theme tokens di `globals.css`: **palette herouiv3 dipertahankan** (gak ikut shadcn). Pengecualian: `--field-background` dark diganti putih tipis (`oklch(100% 0 0 / 6%)`). Token lain (`*-hover`, `*-soft`, `*-secondary`, ...) diturunkan otomatis oleh `@heroui/styles` via `color-mix`, jadi gak perlu ditambah
 
 **Done when:** `lint`, `typecheck`, `build` hijau; struktur folder identik dengan shadcn.
 
