@@ -65,7 +65,7 @@ function InputText(props: InputTextProps) {
       {label && (
         <div
           className={cn("flex flex-col gap-1", [
-            { "sm:w-[150px] sm:flex-none sm:mt-2": labelPlacement === "left" },
+            { "sm:w-37.5 sm:flex-none sm:mt-2": labelPlacement === "left" },
             classNames?.labelWrapper,
           ])}
         >
